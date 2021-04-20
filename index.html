@@ -29,9 +29,11 @@
             alert("사랑해요!");
         }
         function getAnniversary(){
+            //var firstDay = new Date('2017-09-02');
             var firstDay = new Date('2017-09-02');
             var now = new Date();
-            document.writeln(now);
+            document.writeln(firstDay); //Tue Apr 20 2021 16:39:24 GMT+0900 (대한민국 표준시)
+            //document.writeln(now); //Tue Apr 20 2021 16:39:24 GMT+0900 (대한민국 표준시)
             var toNow = now.getTime();
             var toFirst = firstDay.getTime();
             var passedTime = toNow - toFirst;
