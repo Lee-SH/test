@@ -1,0 +1,81 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>소연느님</title>
+</head>
+<body>
+소연아<br>
+공부하느라 많이 힘들지?<br>
+그래도 조금만 참고 열심히 하고나면 행복한우리의 시간이 또 올거야<br>
+항상 옆에서 화이팅 해줄게요!!<br>
+사랑해요♡<br>
+<div><img src="https://lee-sh.github.io/test/img/daily/mybirthday01.JPG" style="max-width: 300px; max-height: 300px">   2021/04/19</div>
+<hr style="width:100%; border-bottom:0px; text-align:left; margin-left:0px;">
+우리 소연이! 진급한 날!<br>
+빰빠밤빠밤빰빠밤빠밤빰빠밤빠밤~~~~~!!!!!<br>
+축하합니다, 축하합니다, 당신의 진급을 축하합니다!!!!<br>
+자랑스러운 내 여자친구 소연이 사랑해요♥<br>
+<div><img src="https://lee-sh.github.io/test/img/daily/improve.png" style="max-width: 500px; max-height: 500px">   2021/04/20</div>
+<hr style="width:100%; border-bottom:0px; text-align:left; margin-left:0px;">
+소연이의 서른번째 생일을 축하합니다.<br>
+스물다섯살때 처음 본 소연이가 벌써 서른살이래요~<br>
+아직도 귀요미 이십대 같은 나의 서른살 여자친구!<br>
+생일 축하하구 사랑해요♡<br>
+<div><img src="https://lee-sh.github.io/test/img/daily/birthday.JPG" style="max-width: 500px; max-height: 500px">   2021/05/09</div>
+<hr style="width:100%; border-bottom:0px; text-align:left; margin-left:0px;">
+소연아. 공부하느라 너무 힘들지?<br>
+막바지라서 불태우는 모습이 안쓰럽기도하고 대견하기도 하네..<br>
+이제 거의 다 끝나가니까 하루이틀만 더 고생하면<br>
+동대문에 맛있는 디저트도 먹을 수 있고 나랑도 잼나게 놀거니까<br>
+그때를 생각하면서 쪼금만 힘내자!<br>
+스트레스 받지 않길 바라며 내 기운을 쏴줄게요!<br>
+<div><img src="https://lee-sh.github.io/test/img/daily/fighting.JPG" style="max-width: 500px; max-height: 500px">   2021/05/19</div>
+<hr style="width:100%; border-bottom:0px; text-align:left; margin-left:0px;">
+
+우리 자기!!<br>
+더운 날씨에 단비같은 기쁜 소식이 왔으면 좋았을텐데..<br>
+그래두 열심히 노력한거 나는 잘 아니까 내 마음은 여니 백점이야!!<br>
+너무 고생했구 앞으로 더 좋은 일이 많이 생길거얌!!<br>
+슬픈일이 오면 기쁜일도 오고 그러는 거니까 또 얼마나 좋은일이 생길지 기대해요!<br>
+내가 위로의 의미로 아주 맛난거 살게요♡<br>
+너무 고생했구, 우리 앞으로 여니 새 보금자리에서 재택같이 하면서<br>
+재밌게 지내보자!<br>
+알라뷰 마 달링 ♥<br>
+<div><img src="https://lee-sh.github.io/test/img/daily/consolation.JPG" style="max-width: 500px; max-height: 500px">   2021/07/29</div>
+<hr style="width:100%; border-bottom:0px; text-align:left; margin-left:0px;">
+
+소연이는 김천에서 휴식중♬<br>
+남아있는 나는 똘이와 집에서 알콩달콩 지내고 있어.<br>
+지금 씽씽이 탔다고 신나서 동영상도 보내주고 있넹. 귀여워.<br>
+앗 방금 너무 느끼했다 헤헤<br>
+똘이 침대에 재우고 컴터방에서 몰래 편지 쓰고 있어용 ㅋㅋ<br>
+킥씽이 주차 잘해서 쿠폰받은 여니네 가족!<br>
+오랜만에 장기간 김천 휴식이니까 푹 쉬고 돌아왔음 좋겠어용<br>
+목 아픈것도 좀 나아졌으면 좋겠다!<br>
+그럼 오늘 하루도 즐겁게 마무리해용 달링★<br>
+<div><img src="https://lee-sh.github.io/test/img/daily/vacation.png" style="max-width: 500px; max-height: 500px">   2021/08/06</div>
+<hr style="width:100%; border-bottom:0px; text-align:left; margin-left:0px;">
+
+<div>
+    <button type="button" onclick="getAnniversary()">우리가 사귄지?</button>
+    <span class="passedDay"></span>
+</div>
+
+</body>
+
+    <script>
+        function getAnniversary(){
+            var firstDay = new Date('2017-09-02');
+            var now = new Date();
+            var toNow = now.getTime();
+            var toFirst = firstDay.getTime();
+            var passedTime = toNow - toFirst;
+            var passedDay = Math.round(passedTime/(24*60*60*1000));
+
+            $(".passedDay").html(passedDay + "일째");
+        }
+    </script>
+</html>
+
