@@ -37,6 +37,12 @@
             //background: #191919;
             text-align: center;
         }
+        .anniversary{
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
         .box h1{
             color: white;
             text-transform: uppercase;
@@ -95,6 +101,11 @@
 
 </form>
 
+<div class="anniversary">
+    <button type="button" onclick="getAnniversary()">우리가 사귄지?</button>
+    <span class="passedDay" style="font-color: white"></span>
+</div>
+
 <script>
     function validationForm(){
         console.log($("input[name='id']").val());
@@ -102,6 +113,17 @@
             alert("당신의 이름을 정확히 입력하세요");
             return false;
         }
+    }
+
+    function getAnniversary(){
+        var firstDay = new Date('2017-09-02');
+        var now = new Date();
+        var toNow = now.getTime();
+        var toFirst = firstDay.getTime();
+        var passedTime = toNow - toFirst;
+        var passedDay = Math.round(passedTime/(24*60*60*1000));
+
+        $(".passedDay").html(passedDay + "일째");
     }
 </script>
 
