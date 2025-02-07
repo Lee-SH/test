@@ -5,24 +5,25 @@ body
   background: #262626;
   font-family: sans-serif;
 }
-.container
-{
-  width:100%;
+.container {
+  width: 100%;
+  max-width: 1024px; /* 컨테이너 최대 너비 설정 */
   margin: 70px auto 0;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between; /* 요소들 사이 여백 균등하게 */
 }
-.container .box
-{
-  position: relative;
-  width: 320px;
+
+.container .box {
+  width: calc(33.333% - 20px); /* 3개씩 정렬 */
   height: 320px;
   background: #ff0;
-  margin : 10px;
+  margin: 10px; /* 여백을 균등하게 */
   box-sizing: border-box;
   display: inline-block;
 }
+
+
 .container .box .imgBox
 {
   position: relative;
