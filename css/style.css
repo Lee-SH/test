@@ -23,19 +23,6 @@ body
   display: inline-block;
 }
 
-/* ✅ 반응형 미디어 쿼리 */
-@media screen and (max-width: 1024px) {
-  .container .box {
-    width: calc(50% - 20px); /* 1024px 이하에서는 2개씩 */
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .container .box {
-    width: calc(100% - 20px); /* 768px 이하에서는 1개씩 */
-  }
-}
-
 .container .box .imgBox
 {
   position: relative;
