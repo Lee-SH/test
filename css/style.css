@@ -84,3 +84,12 @@ body
   font-size: 13px;
   color: #ff0;
 }
+.year-label {
+  width: 100%;
+  text-align: center;
+  font-size: 50px;  /* 숫자를 크게 */
+  font-weight: bold;
+  color: #ff0;  /* 노란색 */
+  margin: 30px 0 10px; /* 위아래 여백 */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 그림자 효과 */
+}
