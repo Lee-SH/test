@@ -158,15 +158,27 @@ body{
     border-color: rgba(255,209,102,0.25);
 }
 
-/* 모바일: hover가 애매하니 항상 오버레이 살짝 보이게 */
-@media (hover: none) {
-    .overlay{
+/* 기본: 오버레이는 숨김 */
+.overlay{
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none; /* 숨겨졌을 때 클릭 방해 안 하게 */
+}
+
+/* PC(hover 가능): 마우스 오버 시 표시 */
+@media (hover: hover) and (pointer: fine){
+    .card:hover .overlay{
         opacity: 1;
         transform: translateY(0);
+        pointer-events: auto;
     }
-    .desc{
-        -webkit-line-clamp: 5;
-    }
+}
+
+/* 모바일(터치): 클릭해서 .is-open 붙으면 표시 */
+.card.is-open .overlay{
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 /* 접근성: 모션 최소화 */
