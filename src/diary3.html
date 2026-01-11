@@ -801,3 +801,40 @@
 </div>
 </body>
 </html>
+
+<script>
+    (function () {
+        const cards = document.querySelectorAll('.card');
+        if (!cards.length) return;
+
+        function closeOthers(current) {
+            cards.forEach(c => { if (c !== current) c.classList.remove('is-open'); });
+        }
+
+        cards.forEach(card => {
+            card.tabIndex = 0;
+
+            const toggle = (e) => {
+                if (e.target.closest('a')) return; // 카드 안 링크는 그대로 클릭
+                const willOpen = !card.classList.contains('is-open');
+                closeOthers(card);
+                card.classList.toggle('is-open', willOpen);
+            };
+
+            card.addEventListener('click', toggle);
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggle(e);
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.card')) {
+                cards.forEach(c => c.classList.remove('is-open'));
+            }
+        });
+    })();
+</script>
+
