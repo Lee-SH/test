@@ -1,95 +1,178 @@
-body
-{
-  margin: 0;
-  padding: 0;
-  background: #262626;
-  font-family: sans-serif;
-}
-.container
-{
-  width:100%;
-  margin: 70px auto 0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.container .box
-{
-  position: relative;
-  width: 300px;
-  height: 300px;
-  background: #ff0;
-  margin : 10px;
-  box-sizing: border-box;
-  display: inline-block;
-}
-.container .box .imgBox
-{
-  position: relative;
-  overflow: hidden;
-}
-.container .box .imgBox img
-{
-  max-width: 100%;
-  transition: transform 2s;
+:root{
+    --bg: #0f1115;
+    --card: rgba(255,255,255,0.06);
+    --card-border: rgba(255,255,255,0.10);
+    --text: rgba(255,255,255,0.92);
+    --muted: rgba(255,255,255,0.68);
+    --accent: #ffd166; /* 골드톤 */
+    --shadow: 0 18px 60px rgba(0,0,0,0.55);
+    --radius: 18px;
 }
 
-.container .box:hover .imgBox img
-{
-  transform: scale(1.2);
-}
-.container .box .details
-{
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  bottom: 10px;
-  right: 10px;
-  background: rgba(0,0,0,.8);
-  transform: scaleY(0);
-  transition: transform .5s;
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+
+body{
+    margin: 0;
+    padding: 0;
+    background:
+            radial-gradient(1200px 700px at 20% -10%, rgba(255,209,102,0.10), transparent 60%),
+            radial-gradient(900px 600px at 90% 20%, rgba(77,181,255,0.08), transparent 55%),
+            var(--bg);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", sans-serif;
 }
 
-.container .box:hover .details
-{
-  transform: scaleY(1);
+.container{
+    width: min(1200px, 92vw);
+    margin: 70px auto 80px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+    align-items: start;
 }
 
-.container .box .details .content
-{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  text-align: center;
-  padding: 15px;
-  color: #fff;
-}
-.container .box .details .content h2
-{
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-  color: #ff0;
+/* 연도 섹션은 grid에서 전체 폭 차지 */
+.year{
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: inherit;
+    gap: inherit;
 }
 
-.container .box .details .content p
-{
-  margin: 10px 0 0;
-  padding: 0;
+/* year-label이 카드들과 같이 grid 흐름 안에서 전체 폭 차지 */
+.year-label{
+    grid-column: 1 / -1;
+    margin: 26px 0 8px;
+    font-size: clamp(34px, 5vw, 56px);
+    letter-spacing: 0.08em;
+    font-weight: 800;
+    color: var(--accent);
+    text-align: center;
+    text-shadow: 0 12px 30px rgba(0,0,0,0.55);
+    position: relative;
 }
-.container .box .details .content span
-{
-  margin: 10px 0 0;
-  padding: 0;
-  font-size: 13px;
-  color: #ff0;
+
+.year-label::after{
+    content: "";
+    display: block;
+    width: min(520px, 78vw);
+    height: 1px;
+    margin: 12px auto 0;
+    background: linear-gradient(90deg, transparent, rgba(255,209,102,0.55), transparent);
 }
-.year-label {
-  width: 100%;
-  text-align: center;
-  font-size: 50px;  /* 숫자를 크게 */
-  font-weight: bold;
-  color: #ff0;  /* 노란색 */
-  margin: 30px 0 10px; /* 위아래 여백 */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 그림자 효과 */
+
+/* 카드 */
+.card{
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+    transform: translateZ(0);
+    min-height: 260px;
+}
+
+/* 이미지 영역 */
+.media{
+    margin: 0;
+    aspect-ratio: 1 / 1;   /* 정사각 유지 */
+    overflow: hidden;
+    position: relative;
+}
+
+.media img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.03);
+    transition: transform 600ms ease;
+    filter: saturate(1.05) contrast(1.05);
+}
+
+/* 오버레이 (기본은 아래로 숨김) */
+.overlay{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+            180deg,
+            rgba(0,0,0,0.05) 0%,
+            rgba(0,0,0,0.70) 55%,
+            rgba(0,0,0,0.88) 100%
+    );
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 260ms ease, transform 260ms ease;
+    display: grid;
+    align-items: end;
+}
+
+.overlay-inner{
+    padding: 16px 16px 14px;
+}
+
+/* 텍스트 */
+.title{
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+}
+
+.desc{
+    margin: 0;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    max-height: calc(1.5em * 6); /* 6줄 제한 */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+}
+
+.date{
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(255,209,102,0.9);
+    letter-spacing: 0.08em;
+}
+
+/* hover/focus */
+.card:hover .media img,
+.card:focus-within .media img{
+    transform: scale(1.12);
+}
+
+.card:hover .overlay,
+.card:focus-within .overlay{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card:hover{
+    box-shadow: var(--shadow);
+    border-color: rgba(255,209,102,0.25);
+}
+
+/* 모바일: hover가 애매하니 항상 오버레이 살짝 보이게 */
+@media (hover: none) {
+    .overlay{
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .desc{
+        -webkit-line-clamp: 5;
+    }
+}
+
+/* 접근성: 모션 최소화 */
+@media (prefers-reduced-motion: reduce){
+    *{
+        transition: none !important;
+        animation: none !important;
+    }
 }
