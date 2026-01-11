@@ -1,132 +1,273 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ko" dir="ltr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>Login</title>
+
     <style>
-        body{
-            margin: 0;
-            padding: 0;
-            font-family: sans-serif;
-            background: #34495e;
-        }
-        .box{
-            width: 300px;
-            /*height: 700px;*/
-            padding: 40px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            background: #191919;
-            text-align: center;
-        }
-        .update{
-            color: white;
-            text-transform: uppercase;
-            font-weight: 500;
-            width: 300px;
-            /*height: 700px;*/
-            padding: 40px;
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            //background: #191919;
-            text-align: center;
-        }
-        .anniversary{
-            position: absolute;
-            top: 80%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-        }
-        .box h1{
-            color: white;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-        .box input[type = "text"],.box input[type = "password"]{
-            border:0;
-            background: none;
-            display: block;
-            margin: 20px auto;
-            text-align: center;
-            border: 2px solid #3498db;
-            padding: 14px 10px;
-            width: 200px;
-            outline: none;
-            color: white;
-            border-radius: 24px;
-            transition: 0.25s;
-        }
-        .box input[type = "text"]:focus,.box input[type = "password"]:focus{
-            width: 280px;
-            border-color: #2ecc71;
-        }
-        .box input[type = "submit"]{
-            border:0;
-            background: none;
-            display: block;
-            margin: 20px auto;
-            text-align: center;
-            border: 2px solid #2ecc71;
-            padding: 14px 40px;
-            outline: none;
-            color: white;
-            border-radius: 24px;
-            transition: 0.25s;
-            cursor: pointer;
-        }
-        .box input[type = "submit"]:hover{
-            background: #2ecc71;
+        :root{
+            --bg: #0f1115;
+            --card: rgba(255,255,255,0.08);
+            --card-border: rgba(255,255,255,0.14);
+            --text: rgba(255,255,255,0.92);
+            --muted: rgba(255,255,255,0.70);
+            --accent: #ffd166; /* 따뜻한 골드 */
+            --accent2: #4db5ff; /* 포인트 블루 */
+            --shadow: 0 22px 70px rgba(0,0,0,0.55);
+            --radius: 20px;
         }
 
+        *{ box-sizing: border-box; }
+        html, body{ height: 100%; }
+
+        body{
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans KR", Segoe UI, Roboto, sans-serif;
+            background:
+                    radial-gradient(1200px 700px at 15% -10%, rgba(255,209,102,0.14), transparent 60%),
+                    radial-gradient(900px 600px at 85% 20%, rgba(77,181,255,0.14), transparent 55%),
+                    radial-gradient(900px 600px at 50% 110%, rgba(46,204,113,0.10), transparent 60%),
+                    var(--bg);
+            color: var(--text);
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        /* 상단 업데이트 배지 */
+        .update{
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.14);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            font-size: 13px;
+            color: var(--muted);
+            z-index: 10;
+            user-select: none;
+        }
+        .badge{
+            font-weight: 800;
+            color: #111;
+            background: var(--accent);
+            border-radius: 999px;
+            padding: 4px 10px;
+            letter-spacing: .02em;
+        }
+
+        /* 로그인 카드 */
+        .login-card{
+            width: min(420px, 92vw);
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 카드 상단 장식 */
+        .login-card::before{
+            content:"";
+            position:absolute;
+            inset: -80px -80px auto -80px;
+            height: 160px;
+            background: linear-gradient(90deg, rgba(255,209,102,0.18), rgba(77,181,255,0.18));
+            filter: blur(2px);
+        }
+
+        .card-inner{
+            position: relative;
+            padding: 26px 22px 18px;
+        }
+
+        .header{
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .header .eyebrow{
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.75);
+            padding: 6px 10px;
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 999px;
+            background: rgba(0,0,0,0.25);
+        }
+
+        .header h1{
+            margin: 14px 0 6px;
+            font-size: 24px;
+            letter-spacing: .02em;
+        }
+
+        .header p{
+            margin: 0;
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        /* 인풋 */
+        .field{
+            margin-top: 18px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .input{
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(0,0,0,0.25);
+            color: var(--text);
+            padding: 14px 14px;
+            border-radius: 14px;
+            outline: none;
+            font-size: 15px;
+            transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+        }
+        .input::placeholder{ color: rgba(255,255,255,0.45); }
+        .input:focus{
+            border-color: rgba(255,209,102,0.6);
+            box-shadow: 0 0 0 4px rgba(255,209,102,0.12);
+            transform: translateY(-1px);
+        }
+
+        /* 버튼 */
+        .btn{
+            width: 100%;
+            border: none;
+            padding: 13px 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 800;
+            letter-spacing: .02em;
+            color: #111;
+            background: linear-gradient(90deg, var(--accent), #ffe08a);
+            transition: transform 140ms ease, filter 140ms ease;
+            margin-top: 6px;
+        }
+        .btn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+        .btn:active{ transform: translateY(0px); }
+
+        /* 아래 푸터/기념일 */
+        .footer{
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .mini{
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .mini-btn{
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(0,0,0,0.22);
+            color: var(--text);
+            padding: 10px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: border-color 180ms ease, transform 140ms ease;
+            white-space: nowrap;
+        }
+        .mini-btn:hover{
+            border-color: rgba(77,181,255,0.55);
+            transform: translateY(-1px);
+        }
+
+        .passedDay{
+            font-weight: 800;
+            color: var(--accent2);
+            letter-spacing: .02em;
+        }
+
+        /* 작은 화면에서 더 예쁘게 */
+        @media (max-width: 420px){
+            .footer{ justify-content: center; }
+            .mini{ justify-content: center; width: 100%; }
+        }
+
+        /* 모션 최소화 */
+        @media (prefers-reduced-motion: reduce){
+            *{ transition: none !important; }
+        }
     </style>
 </head>
+
 <body>
 
 <div class="update">
-    <span style="color:red";>new!!</span> 마지막 업데이트 : 2026-01-12
+    <span class="badge">NEW</span>
+    <span>마지막 업데이트 : <strong style="color: var(--text); font-weight: 800;">2026-01-12</strong></span>
 </div>
 
-<form class="box" action="src/diary3.html" onsubmit="return validationForm()" method="get">
-    <h1>Login</h1>
-    <input type="text" name="id" placeholder="Username">
-    <!--<span style="color:white">remember</span> <input type="checkbox">-->
-    <!--<input type="password" name="password" placeholder="Password">-->
-    <input type="submit" name="submit" value="Login">
+<form class="login-card" action="src/diary3.html" onsubmit="return validationForm()" method="get">
+    <div class="card-inner">
+        <div class="header">
+            <span class="eyebrow">Welcome</span>
+            <h1>김소연 전용 입장 ✨</h1>
+            <p>이 페이지는 우리 추억 앨범이에요.<br/>이름을 입력하면 들어갈 수 있어요.</p>
+        </div>
 
+        <div class="field">
+            <input class="input" type="text" name="id" placeholder="이름을 입력하세요 (예: 김소연)" autocomplete="off" />
+            <button class="btn" type="submit">입장하기</button>
+        </div>
+
+        <div class="footer">
+            <button class="mini-btn" type="button" onclick="getAnniversary()">우리가 사귄지 몇 일?</button>
+            <div class="mini">
+                <span>💙</span>
+                <span class="passedDay"></span>
+            </div>
+        </div>
+    </div>
 </form>
-
-<div class="anniversary">
-    <button type="button" onclick="getAnniversary()">우리가 사귄지?</button>
-    <span class="passedDay" style="font-color: white"></span>
-</div>
 
 <script>
     function validationForm(){
-        console.log($("input[name='id']").val());
-        if($("input[name='id']").val() !=="김소연"){
+        const v = $("input[name='id']").val().trim();
+        if(v !== "김소연"){
             alert("당신의 이름을 정확히 입력하세요");
             return false;
         }
+        return true;
     }
 
     function getAnniversary(){
         var firstDay = new Date('2017-09-02');
         var now = new Date();
-        var toNow = now.getTime();
-        var toFirst = firstDay.getTime();
-        var passedTime = toNow - toFirst;
+        var passedTime = now.getTime() - firstDay.getTime();
         var passedDay = Math.round(passedTime/(24*60*60*1000));
-
         $(".passedDay").html(passedDay + "일째");
     }
 </script>
-
 
 </body>
 </html>
