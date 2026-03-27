@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>공용 가계부</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/finance.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+<nav class="site-nav">
+    <a class="nav-brand" href="../index.html">SY &amp; SH</a>
+    <div class="nav-tabs">
+        <a class="nav-tab active" href="finance.html">
+            <span class="nav-tab-icon">&#x1F4B0;</span>
+            공용 가계부
+        </a>
+        <a class="nav-tab" href="diary3.html">
+            <span class="nav-tab-icon">&#x1F4D6;</span>
+            우리의 추억
+        </a>
+    </div>
+</nav>
+
+<main class="finance-page">
+
+    <!-- 페이지 헤더 -->
+    <div class="page-header">
+        <h1>공용 가계부</h1>
+        <p>신한은행 110-494-142149 &middot; 2026년 2월 ~ 3월</p>
+    </div>
+
+    <!-- 전체 요약 -->
+    <div class="summary-grid" id="summaryGrid"></div>
+
+    <!-- 월별 탭 -->
+    <div class="month-tabs" id="monthTabs">
+        <button class="month-tab active" data-month="all">전체</button>
+        <button class="month-tab" data-month="2">2월</button>
+        <button class="month-tab" data-month="3">3월</button>
+    </div>
+
+    <!-- 차트 영역 -->
+    <div class="charts-grid">
+        <div class="chart-box">
+            <h3>월별 입금 / 지출</h3>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>카테고리별 지출</h3>
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </div>
+
+    <!-- 거래내역 테이블 -->
+    <div class="section-card">
+        <div class="section-header">
+            <span class="section-title">거래 내역</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div class="tx-filter-tabs" id="txFilterTabs">
+                    <button class="tx-filter active" data-filter="all">전체</button>
+                    <button class="tx-filter" data-filter="income">입금</button>
+                    <button class="tx-filter" data-filter="expense">출금</button>
+                </div>
+                <span class="section-badge" id="txCount"></span>
+            </div>
+        </div>
+        <div class="table-scroll">
+            <table class="tx-table">
+                <thead>
+                    <tr>
+                        <th>날짜</th>
+                        <th>내용</th>
+                        <th>카테고리</th>
+                        <th style="text-align:right">입금</th>
+                        <th style="text-align:right">출금</th>
+                        <th style="text-align:right">잔액</th>
+                    </tr>
+                </thead>
+                <tbody id="txBody"></tbody>
+            </table>
+        </div>
+        <!-- 모바일용 카드형 리스트 -->
+        <div class="tx-card-list" id="txCardList"></div>
+    </div>
+
+</main>
+
+<script>
+/* ── 거래 데이터 ── */
+const transactions = [
+    { date:"2026-02-05", time:"14:43:07", desc:"소연1월 소중월급", withdrawal:0, deposit:3880000, balance:3880000, memo:"모바일" },
+    { date:"2026-02-05", time:"14:49:47", desc:"김소연 정산", withdrawal:200000, deposit:0, balance:3680000, memo:"모바일" },
+    { date:"2026-02-05", time:"14:51:49", desc:"상혁 1월 급여", withdrawal:0, deposit:8521970, balance:12201970, memo:"타행모바일뱅킹" },
+    { date:"2026-02-25", time:"05:49:55", desc:"상혁 2월 급여", withdrawal:0, deposit:1500000, balance:13701970, memo:"급여" },
+    { date:"2026-02-25", time:"08:20:32", desc:"자동이체 (적금)", withdrawal:300000, deposit:0, balance:13401970, memo:"자동이체" },
+    { date:"2026-02-25", time:"18:02:53", desc:"신한카드 결제", withdrawal:239110, deposit:0, balance:13162860, memo:"카드결제" },
+    { date:"2026-02-25", time:"18:36:54", desc:"관리비", withdrawal:215200, deposit:0, balance:12947660, memo:"FB자동" },
+    { date:"2026-02-26", time:"15:15:09", desc:"우리카드 캐쉬백", withdrawal:0, deposit:7000, balance:12954660, memo:"인터넷뱅킹" },
+    { date:"2026-02-28", time:"14:11:10", desc:"이상혁 (개인지출)", withdrawal:20000, deposit:0, balance:9931460, memo:"모바일" },
+    { date:"2026-02-28", time:"14:24:01", desc:"이상혁 (개인지출)", withdrawal:55600, deposit:0, balance:9875860, memo:"모바일" },
+    { date:"2026-03-03", time:"06:18:40", desc:"대출이자", withdrawal:434958, deposit:0, balance:9440902, memo:"대출이자" },
+    { date:"2026-03-10", time:"14:21:51", desc:"소연 2월 월급", withdrawal:0, deposit:3000000, balance:12440902, memo:"모바일" },
+    { date:"2026-03-21", time:"02:51:28", desc:"이자 (12.20~03.20)", withdrawal:0, deposit:1293, balance:12442195, memo:"이자" },
+    { date:"2026-03-21", time:"13:38:21", desc:"화분", withdrawal:45000, deposit:0, balance:12397195, memo:"모바일" },
+    { date:"2026-03-21", time:"13:42:36", desc:"화분", withdrawal:60000, deposit:0, balance:12337195, memo:"모바일" },
+    { date:"2026-03-21", time:"17:13:45", desc:"풋샵 적립금", withdrawal:330000, deposit:0, balance:12007195, memo:"모바일" },
+    { date:"2026-03-22", time:"21:18:04", desc:"김소연 (이체)", withdrawal:130000, deposit:0, balance:11877195, memo:"모바일" },
+    { date:"2026-03-25", time:"05:50:34", desc:"상혁 3월 월급", withdrawal:0, deposit:1500000, balance:13377195, memo:"분당중" },
+    { date:"2026-03-25", time:"08:18:22", desc:"자동이체 (적금)", withdrawal:300000, deposit:0, balance:13077195, memo:"자동이체" },
+    { date:"2026-03-25", time:"18:01:37", desc:"신한카드 결제", withdrawal:851950, deposit:0, balance:12225245, memo:"카드결제" },
+    { date:"2026-03-25", time:"18:35:29", desc:"관리비", withdrawal:247440, deposit:0, balance:9221805, memo:"FB자동" },
+    { date:"2026-03-25", time:"18:35:29", desc:"캐나다 항공권", withdrawal:3003200, deposit:0, balance:8974605, memo:"FB자동" },
+    { date:"2026-03-27", time:"16:55:40", desc:"김소연 3월 월급", withdrawal:0, deposit:2680000, balance:11654605, memo:"모바일" },
+    { date:"2026-03-27", time:"17:20:56", desc:"코스트코", withdrawal:180000, deposit:0, balance:11474605, memo:"모바일" },
+    { date:"2026-03-27", time:"17:57:06", desc:"상혁 2월 월급 추가분", withdrawal:0, deposit:300000, balance:14777805, memo:"모바일" },
+    { date:"2026-03-27", time:"17:58:34", desc:"상혁 3월 월급 추가분", withdrawal:0, deposit:3980000, balance:18757805, memo:"모바일" },
+];
+
+/* ── 카테고리 분류 ── */
+function categorize(tx) {
+    const d = tx.desc.toLowerCase();
+    if (tx.deposit > 0) {
+        if (d.includes("월급") || d.includes("급여")) return { name:"급여", cls:"cat-salary" };
+        if (d.includes("이자")) return { name:"이자", cls:"cat-interest" };
+        if (d.includes("캐쉬백")) return { name:"기타수입", cls:"cat-etc" };
+        return { name:"입금", cls:"cat-salary" };
+    }
+    if (d.includes("관리비")) return { name:"주거", cls:"cat-housing" };
+    if (d.includes("항공")) return { name:"여행", cls:"cat-shopping" };
+    if (d.includes("카드") || d.includes("신한카드")) return { name:"카드결제", cls:"cat-card" };
+    if (d.includes("대출") || d.includes("이자")) return { name:"금융", cls:"cat-finance" };
+    if (d.includes("적금") || d.includes("자동이체") || d.includes("230373")) return { name:"저축", cls:"cat-savings" };
+    if (d.includes("코스트코") || d.includes("화분") || d.includes("풋샵")) return { name:"쇼핑/생활", cls:"cat-shopping" };
+    if (d.includes("정산") || d.includes("개인")) return { name:"개인지출", cls:"cat-etc" };
+    return { name:"기타", cls:"cat-etc" };
+}
+
+/* ── 숫자 포맷 ── */
+function fmt(n) {
+    if (!n) return "-";
+    return n.toLocaleString("ko-KR") + "원";
+}
+
+/* ── 필터 상태 ── */
+let currentMonth = "all";
+let currentTxFilter = "all";
+
+function getFiltered() {
+    let data = transactions;
+    if (currentMonth !== "all") {
+        data = data.filter(tx => parseInt(tx.date.split("-")[1]) === parseInt(currentMonth));
+    }
+    return data;
+}
+
+function getTableFiltered() {
+    let data = getFiltered();
+    if (currentTxFilter === "income") data = data.filter(tx => tx.deposit > 0);
+    if (currentTxFilter === "expense") data = data.filter(tx => tx.withdrawal > 0);
+    return data;
+}
+
+/* ── 요약 카드 렌더 ── */
+function renderSummary() {
+    const data = getFiltered();
+    const totalIn = data.reduce((s,t) => s + t.deposit, 0);
+    const totalOut = data.reduce((s,t) => s + t.withdrawal, 0);
+    const lastBalance = transactions[transactions.length - 1].balance;
+
+    const grid = document.getElementById("summaryGrid");
+    grid.innerHTML = `
+        <div class="summary-card">
+            <div class="label">총 입금</div>
+            <div class="value income">${fmt(totalIn)}</div>
+            <div class="sub">${data.filter(t=>t.deposit>0).length}건</div>
+        </div>
+        <div class="summary-card">
+            <div class="label">총 지출</div>
+            <div class="value expense">${fmt(totalOut)}</div>
+            <div class="sub">${data.filter(t=>t.withdrawal>0).length}건</div>
+        </div>
+        <div class="summary-card">
+            <div class="label">순 수입</div>
+            <div class="value ${totalIn - totalOut >= 0 ? 'income' : 'expense'}">${fmt(totalIn - totalOut)}</div>
+        </div>
+        <div class="summary-card">
+            <div class="label">현재 잔액</div>
+            <div class="value balance">${fmt(lastBalance)}</div>
+            <div class="sub">3월 27일 기준</div>
+        </div>
+    `;
+}
+
+/* ── 테이블 렌더 ── */
+function renderTable() {
+    const data = [...getTableFiltered()].reverse();
+    const tbody = document.getElementById("txBody");
+    document.getElementById("txCount").textContent = data.length + "건";
+
+    tbody.innerHTML = data.map(tx => {
+        const cat = categorize(tx);
+        return `<tr>
+            <td class="tx-date">${tx.date.slice(5)}<br><span class="tx-time">${tx.time.slice(0,5)}</span></td>
+            <td class="tx-desc">${tx.desc}</td>
+            <td><span class="tx-category ${cat.cls}">${cat.name}</span></td>
+            <td class="tx-amount income">${tx.deposit ? "+" + fmt(tx.deposit) : ""}</td>
+            <td class="tx-amount expense">${tx.withdrawal ? "-" + fmt(tx.withdrawal) : ""}</td>
+            <td class="tx-balance">${fmt(tx.balance)}</td>
+        </tr>`;
+    }).join("");
+
+    /* 모바일 카드형 */
+    document.getElementById("txCardList").innerHTML = data.map(tx => {
+        const cat = categorize(tx);
+        const isIncome = tx.deposit > 0;
+        const amount = isIncome ? "+" + fmt(tx.deposit) : "-" + fmt(tx.withdrawal);
+        return `<div class="tx-card-item">
+            <div class="tx-card-top">
+                <span class="tx-card-desc">${tx.desc}</span>
+                <span class="tx-card-amount ${isIncome ? 'income' : 'expense'}">${amount}</span>
+            </div>
+            <div class="tx-card-bottom">
+                <span>${tx.date.slice(5)} ${tx.time.slice(0,5)}</span>
+                <span class="tx-category ${cat.cls}">${cat.name}</span>
+                <span class="tx-card-balance">잔액 ${fmt(tx.balance)}</span>
+            </div>
+        </div>`;
+    }).join("");
+}
+
+/* ── 차트: 월별 입금/지출 ── */
+let monthlyChart, categoryChart;
+
+function renderMonthlyChart() {
+    const months = ["2월", "3월"];
+    const incomeByMonth = [0, 0];
+    const expenseByMonth = [0, 0];
+
+    transactions.forEach(tx => {
+        const m = parseInt(tx.date.split("-")[1]) - 2;
+        incomeByMonth[m] += tx.deposit;
+        expenseByMonth[m] += tx.withdrawal;
+    });
+
+    const ctx = document.getElementById("monthlyChart").getContext("2d");
+    if (monthlyChart) monthlyChart.destroy();
+
+    monthlyChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: months,
+            datasets: [
+                { label: "입금", data: incomeByMonth, backgroundColor: "rgba(46,139,87,0.65)", borderRadius: 6 },
+                { label: "지출", data: expenseByMonth, backgroundColor: "rgba(211,84,80,0.65)", borderRadius: 6 }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: "bottom", labels: { boxWidth: 12, padding: 16, font: { size: 12 } } },
+                tooltip: { callbacks: { label: ctx => ctx.dataset.label + ": " + fmt(ctx.raw) } }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: v => (v/10000).toLocaleString() + "만", font: { size: 11 } },
+                    grid: { color: "rgba(0,0,0,0.04)" }
+                },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+/* ── 차트: 카테고리별 지출 ── */
+function renderCategoryChart() {
+    const data = getFiltered().filter(t => t.withdrawal > 0);
+    const catMap = {};
+
+    data.forEach(tx => {
+        const cat = categorize(tx);
+        catMap[cat.name] = (catMap[cat.name] || 0) + tx.withdrawal;
+    });
+
+    const sorted = Object.entries(catMap).sort((a,b) => b[1] - a[1]);
+    const labels = sorted.map(e => e[0]);
+    const values = sorted.map(e => e[1]);
+
+    const colors = [
+        "#e8985e","#5a8fcc","#2e8b57","#d35450","#8e6bbf",
+        "#e6a23c","#5dade2","#999"
+    ];
+
+    const ctx = document.getElementById("categoryChart").getContext("2d");
+    if (categoryChart) categoryChart.destroy();
+
+    categoryChart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+            labels: labels,
+            datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 0, spacing: 2 }]
+        },
+        options: {
+            responsive: true,
+            cutout: "55%",
+            plugins: {
+                legend: { position: "bottom", labels: { boxWidth: 10, padding: 12, font: { size: 12 } } },
+                tooltip: { callbacks: { label: ctx => ctx.label + ": " + fmt(ctx.raw) } }
+            }
+        }
+    });
+}
+
+/* ── 월별 탭 이벤트 ── */
+document.getElementById("monthTabs").addEventListener("click", (e) => {
+    const btn = e.target.closest(".month-tab");
+    if (!btn) return;
+
+    document.querySelectorAll(".month-tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentMonth = btn.dataset.month;
+
+    renderSummary();
+    renderTable();
+    renderCategoryChart();
+});
+
+/* ── 입금/출금 필터 이벤트 ── */
+document.getElementById("txFilterTabs").addEventListener("click", (e) => {
+    const btn = e.target.closest(".tx-filter");
+    if (!btn) return;
+
+    document.querySelectorAll(".tx-filter").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentTxFilter = btn.dataset.filter;
+
+    renderTable();
+});
+
+/* ── 초기 렌더 ── */
+renderSummary();
+renderTable();
+renderMonthlyChart();
+renderCategoryChart();
+</script>
+
+</body>
+</html>

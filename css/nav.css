@@ -1,0 +1,82 @@
+/* =========================
+   nav.css — 네비게이션 바
+   ========================= */
+
+.site-nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 20px;
+    background: rgba(246,245,241,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-brand{
+    position: absolute;
+    left: 20px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    user-select: none;
+    transition: opacity 180ms ease;
+}
+.nav-brand:hover{
+    opacity: 0.7;
+}
+
+.nav-tabs{
+    display: flex;
+    gap: 2px;
+    background: rgba(0,0,0,0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 3px;
+}
+
+.nav-tab{
+    padding: 7px 18px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 150ms ease, background 150ms ease;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-tab:hover{
+    color: var(--text);
+    background: rgba(0,0,0,0.03);
+}
+
+.nav-tab.active{
+    color: var(--text);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-tab-icon{
+    font-size: 14px;
+    line-height: 1;
+}
+
+@media (max-width: 480px){
+    .nav-brand{ display: none; }
+    .nav-tab{ padding: 7px 14px; font-size: 12px; }
+}

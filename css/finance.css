@@ -1,0 +1,369 @@
+/* =========================
+   finance.css — 공용 가계부 스타일
+   ========================= */
+
+.finance-page{
+    width: min(1100px, 94vw);
+    margin: 80px auto 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ── 페이지 헤더 ── */
+.page-header{
+    text-align: center;
+    padding: 8px 0 0;
+}
+.page-header h1{
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.page-header p{
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* ── 요약 카드 그리드 ── */
+.summary-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+}
+
+.summary-card{
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    box-shadow: var(--shadow-sm);
+}
+
+.summary-card .label{
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.summary-card .value{
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.summary-card .sub{
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.value.income{ color: #2e8b57; }
+.value.expense{ color: #d35450; }
+.value.balance{ color: var(--text); }
+
+/* ── 월별 탭 ── */
+.month-tabs{
+    display: flex;
+    gap: 4px;
+    background: rgba(0,0,0,0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 3px;
+    align-self: flex-start;
+}
+
+.month-tab{
+    padding: 7px 20px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 150ms ease, background 150ms ease;
+}
+
+.month-tab:hover{
+    color: var(--text);
+    background: rgba(0,0,0,0.03);
+}
+
+.month-tab.active{
+    color: var(--text);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ── 섹션 카드 ── */
+.section-card{
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.section-card .section-header{
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.section-card .section-title{
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.section-card .section-badge{
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+/* ── 거래 필터 탭 ── */
+.tx-filter-tabs{
+    display: flex;
+    gap: 2px;
+    background: rgba(0,0,0,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2px;
+}
+
+.tx-filter{
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 150ms ease, background 150ms ease;
+}
+
+.tx-filter:hover{
+    color: var(--text-secondary);
+    background: rgba(0,0,0,0.03);
+}
+
+.tx-filter.active{
+    color: var(--text);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ── 거래 테이블 ── */
+.tx-table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.tx-table thead{
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.tx-table th{
+    padding: 10px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.tx-table td{
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.tx-table tbody tr{
+    transition: background 120ms ease;
+}
+
+.tx-table tbody tr:hover{
+    background: rgba(0,0,0,0.015);
+}
+
+.tx-table tbody tr:last-child td{
+    border-bottom: none;
+}
+
+.tx-date{
+    color: var(--text-secondary);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.tx-time{
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+.tx-desc{
+    font-weight: 500;
+}
+
+.tx-amount{
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.tx-amount.income{ color: #2e8b57; }
+.tx-amount.expense{ color: #d35450; }
+
+.tx-balance{
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.tx-category{
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(0,0,0,0.04);
+    color: var(--text-secondary);
+}
+
+/* 카테고리별 색상 */
+.cat-salary{ background: #e8f5e9; color: #2e7d32; }
+.cat-housing{ background: #e3f2fd; color: #1565c0; }
+.cat-card{ background: #fff3e0; color: #e65100; }
+.cat-food{ background: #fce4ec; color: #c62828; }
+.cat-shopping{ background: #f3e5f5; color: #6a1b9a; }
+.cat-finance{ background: #e0f2f1; color: #00695c; }
+.cat-savings{ background: #e8eaf6; color: #283593; }
+.cat-interest{ background: #f1f8e9; color: #558b2f; }
+.cat-etc{ background: rgba(0,0,0,0.04); color: var(--text-secondary); }
+
+/* ── 차트 컨테이너 ── */
+.charts-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 16px;
+}
+
+.chart-box{
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+}
+
+.chart-box h3{
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.chart-box canvas{
+    width: 100% !important;
+    max-height: 280px;
+}
+
+/* ── 모바일 테이블 스크롤 ── */
+.table-scroll{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ── 모바일 카드형 거래내역 ── */
+.tx-card-list{
+    display: none;
+    flex-direction: column;
+}
+
+.tx-card-item{
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tx-card-item:last-child{ border-bottom: none; }
+
+.tx-card-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tx-card-desc{
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.tx-card-amount{
+    font-size: 15px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.tx-card-amount.income{ color: #2e8b57; }
+.tx-card-amount.expense{ color: #d35450; }
+
+.tx-card-bottom{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.tx-card-balance{
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 768px){
+    .finance-page{ gap: 16px; }
+    .summary-grid{ grid-template-columns: 1fr 1fr; }
+    .summary-card{ padding: 14px 16px; }
+    .summary-card .value{ font-size: 18px; }
+    .charts-grid{ grid-template-columns: 1fr; }
+    .chart-box{ padding: 16px; }
+    .page-header h1{ font-size: 20px; }
+
+    .section-card .section-header{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 640px){
+    /* 테이블 숨기고 카드형으로 전환 */
+    .table-scroll{ display: none; }
+    .tx-card-list{ display: flex; }
+
+    .month-tabs{ align-self: stretch; }
+    .month-tab{ flex: 1; text-align: center; }
+
+    .summary-card .label{ font-size: 11px; }
+    .summary-card .value{ font-size: 16px; }
+}
