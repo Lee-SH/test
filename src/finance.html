@@ -508,8 +508,8 @@ function getCardTableFiltered() {
 function renderCardSummary() {
     const data = getCardFiltered();
     const total = data.reduce((s,t) => s + t.amount, 0);
-    const febTotal = data.filter(t => t.date.split("-")[1] === "02").reduce((s,t) => s + t.amount, 0);
-    const marTotal = data.filter(t => t.date.split("-")[1] === "03").reduce((s,t) => s + t.amount, 0);
+
+    const fixed = data.filter(t => categorizeCard(t).name === "고정지출");
 
     document.getElementById("cardSummaryGrid").innerHTML = `
         <div class="summary-card">
@@ -518,19 +518,9 @@ function renderCardSummary() {
             <div class="sub">${data.length}건</div>
         </div>
         <div class="summary-card">
-            <div class="label">2월 결제</div>
-            <div class="value expense">${fmt(febTotal)}</div>
-            <div class="sub">${data.filter(t => t.date.split("-")[1] === "02").length}건</div>
-        </div>
-        <div class="summary-card">
-            <div class="label">3월 결제</div>
-            <div class="value expense">${fmt(marTotal)}</div>
-            <div class="sub">${data.filter(t => t.date.split("-")[1] === "03").length}건</div>
-        </div>
-        <div class="summary-card">
             <div class="label">고정지출</div>
-            <div class="value expense">${fmt(data.filter(t => categorizeCard(t).name === "고정지출").reduce((s,t) => s + t.amount, 0))}</div>
-            <div class="sub">${data.filter(t => categorizeCard(t).name === "고정지출").length}건</div>
+            <div class="value expense">${fmt(fixed.reduce((s,t) => s + t.amount, 0))}</div>
+            <div class="sub">${fixed.length}건</div>
         </div>
     `;
 }
