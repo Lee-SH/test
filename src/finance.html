@@ -191,19 +191,15 @@ const accountTx = [
    카드 결제 데이터 (Shinhancard_20260403 기준)
    ================================================================ */
 const cardTx = [
-    { date:"2026-02-08", time:"15:43", store:"Apple", amount:6500, cardType:"신용", installment:"일시불" },
-    { date:"2026-02-09", time:"13:07", store:"Apple", amount:31000, cardType:"신용", installment:"일시불" },
     { date:"2026-02-09", time:"22:07", store:"컬리페이", amount:61640, cardType:"신용", installment:"일시불" },
     { date:"2026-02-16", time:"12:21", store:"씨유(CU) 공덕래미안4차점", amount:6000, cardType:"신용", installment:"일시불" },
     { date:"2026-02-17", time:"14:19", store:"기요한", amount:41000, cardType:"신용", installment:"일시불" },
     { date:"2026-02-17", time:"16:33", store:"빈브라더스 커피하우스", amount:34500, cardType:"신용", installment:"일시불" },
     { date:"2026-02-18", time:"18:38", store:"에프알엘코리아 (유니클로)", amount:169600, cardType:"신용", installment:"일시불" },
     { date:"2026-02-20", time:"13:30", store:"서울도시가스", amount:191950, cardType:"신용", installment:"일시불" },
-    { date:"2026-02-21", time:"20:04", store:"Apple", amount:10800, cardType:"신용", installment:"일시불" },
     { date:"2026-02-21", time:"21:32", store:"씨유(CU) 공덕래미안4차점", amount:6400, cardType:"신용", installment:"일시불" },
     { date:"2026-02-27", time:"20:34", store:"야키토리 쇼몽", amount:117600, cardType:"신용", installment:"일시불" },
     { date:"2026-02-27", time:"21:26", store:"플릭팜", amount:37000, cardType:"신용", installment:"일시불" },
-    { date:"2026-02-28", time:"12:06", store:"Apple", amount:3300, cardType:"신용", installment:"일시불" },
     { date:"2026-03-01", time:"16:58", store:"파네트", amount:6000, cardType:"신용", installment:"일시불" },
     { date:"2026-03-06", time:"20:00", store:"본점 마포갈매기", amount:48000, cardType:"신용", installment:"일시불" },
     { date:"2026-03-06", time:"20:23", store:"파네트", amount:4600, cardType:"신용", installment:"일시불" },
@@ -247,7 +243,6 @@ const cardTx = [
     { date:"2026-03-29", time:"16:30", store:"파티세리 영원", amount:19000, cardType:"신용", installment:"일시불" },
     { date:"2026-03-29", time:"16:51", store:"을밀대", amount:32000, cardType:"신용", installment:"일시불" },
     { date:"2026-03-29", time:"17:43", store:"씨유(CU) 공덕래미안4차점", amount:6500, cardType:"신용", installment:"일시불" },
-    { date:"2026-03-31", time:"11:04", store:"Apple", amount:3300, cardType:"신용", installment:"일시불" },
 ];
 
 /* ================================================================
@@ -291,26 +286,27 @@ function categorizeCard(tx) {
     if (/씨유|cu|gs25/.test(s))
         return { name:"편의점", cls:"cat-conv", group:"food" };
     // 온라인쇼핑
-    if (/쿠팡|컬리|플릭팜/.test(s))
+    if (/컬리/.test(s))
+        return { name:"식비", cls:"cat-food", group:"food" };
+    if (/쿠팡|플릭팜/.test(s))
         return { name:"온라인쇼핑", cls:"cat-shopping", group:"shopping" };
     // 생활용품
-    if (/무인양품|다이소|쿠쿠/.test(s))
+    if (/무인양품|다이소/.test(s))
         return { name:"생활용품", cls:"cat-life", group:"shopping" };
+    if (/쿠쿠/.test(s))
+        return { name:"고정지출", cls:"cat-fixed", group:"life" };
     // 의류
     if (/에프알엘|유니클로/.test(s))
         return { name:"의류", cls:"cat-fashion", group:"shopping" };
     // 공과금
     if (/도시가스/.test(s))
-        return { name:"공과금", cls:"cat-housing", group:"life" };
+        return { name:"고정지출", cls:"cat-fixed", group:"life" };
     // 교통/주유
     if (/주유|택시/.test(s))
         return { name:"교통/주유", cls:"cat-transport", group:"life" };
-    // 구독
-    if (/apple/.test(s))
-        return { name:"구독", cls:"cat-sub", group:"life" };
-    // 배달
+    // 배달 (식비)
     if (/쿠팡이츠/.test(s))
-        return { name:"배달", cls:"cat-food", group:"food" };
+        return { name:"식비", cls:"cat-food", group:"food" };
     return { name:"기타", cls:"cat-etc", group:"life" };
 }
 
@@ -532,9 +528,9 @@ function renderCardSummary() {
             <div class="sub">${data.filter(t => t.date.split("-")[1] === "03").length}건</div>
         </div>
         <div class="summary-card">
-            <div class="label">건당 평균</div>
-            <div class="value balance">${fmt(Math.round(total / data.length))}</div>
-            <div class="sub">최대 ${fmt(Math.max(...data.map(t=>t.amount)))}</div>
+            <div class="label">고정지출</div>
+            <div class="value expense">${fmt(data.filter(t => categorizeCard(t).name === "고정지출").reduce((s,t) => s + t.amount, 0))}</div>
+            <div class="sub">${data.filter(t => categorizeCard(t).name === "고정지출").length}건</div>
         </div>
     `;
 }
