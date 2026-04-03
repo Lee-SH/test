@@ -339,6 +339,92 @@
     font-variant-numeric: tabular-nums;
 }
 
+/* ── 뷰 탭 (계좌이체/카드결제 전환) ── */
+.view-tabs{
+    display: flex;
+    gap: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px;
+    box-shadow: var(--shadow-sm);
+}
+
+.view-tab{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+}
+
+.view-tab:hover{
+    color: var(--text);
+    background: rgba(0,0,0,0.02);
+}
+
+.view-tab.active{
+    color: var(--text);
+    background: var(--bg);
+    box-shadow: var(--shadow-sm);
+}
+
+.view-tab-icon{
+    font-size: 18px;
+}
+
+/* ── 뷰 패널 ── */
+.view-panel{
+    display: none;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.view-panel.active{
+    display: flex;
+}
+
+/* ── 카드 뱃지 (신용/체크) ── */
+.card-badge{
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.card-badge.credit{
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.card-badge.debit{
+    background: #f3e5f5;
+    color: #6a1b9a;
+}
+
+.tx-card-type{
+    white-space: nowrap;
+}
+
+/* ── 추가 카테고리 색상 ── */
+.cat-travel{ background: #fce4ec; color: #c62828; }
+.cat-cafe{ background: #fff8e1; color: #f57f17; }
+.cat-conv{ background: #e8f5e9; color: #2e7d32; }
+.cat-life{ background: #e0f2f1; color: #00695c; }
+.cat-fashion{ background: #f3e5f5; color: #6a1b9a; }
+.cat-transport{ background: #e3f2fd; color: #1565c0; }
+.cat-sub{ background: #eceff1; color: #37474f; }
+
 /* ── 반응형 ── */
 @media (max-width: 768px){
     .finance-page{ gap: 16px; }

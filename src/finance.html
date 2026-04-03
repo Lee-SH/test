@@ -34,66 +34,131 @@
         <p>신한은행 110-494-142149</p>
     </div>
 
-    <!-- 전체 요약 -->
-    <div class="summary-grid" id="summaryGrid"></div>
-
-    <!-- 월별 탭 -->
-    <div class="month-tabs" id="monthTabs">
-        <button class="month-tab active" data-month="all">전체</button>
-        <button class="month-tab" data-month="2">2월</button>
-        <button class="month-tab" data-month="3">3월</button>
+    <!-- 상위 뷰 탭: 계좌이체 / 카드결제 -->
+    <div class="view-tabs" id="viewTabs">
+        <button class="view-tab active" data-view="account">
+            <span class="view-tab-icon">&#x1F3E6;</span>계좌 이체
+        </button>
+        <button class="view-tab" data-view="card">
+            <span class="view-tab-icon">&#x1F4B3;</span>카드 결제
+        </button>
     </div>
 
-    <!-- 차트 영역 -->
-    <div class="charts-grid">
-        <div class="chart-box">
-            <h3>월별 입금 / 지출</h3>
-            <canvas id="monthlyChart"></canvas>
-        </div>
-        <div class="chart-box">
-            <h3>카테고리별 지출</h3>
-            <canvas id="categoryChart"></canvas>
-        </div>
-    </div>
+    <!-- ========== 계좌 이체 뷰 ========== -->
+    <div class="view-panel active" id="accountView">
 
-    <!-- 거래내역 테이블 -->
-    <div class="section-card">
-        <div class="section-header">
-            <span class="section-title">거래 내역</span>
-            <div style="display:flex; align-items:center; gap:8px;">
-                <div class="tx-filter-tabs" id="txFilterTabs">
-                    <button class="tx-filter active" data-filter="all">전체</button>
-                    <button class="tx-filter" data-filter="income">입금</button>
-                    <button class="tx-filter" data-filter="expense">출금</button>
-                </div>
-                <span class="section-badge" id="txCount"></span>
+        <div class="summary-grid" id="accountSummaryGrid"></div>
+
+        <div class="month-tabs" id="accountMonthTabs">
+            <button class="month-tab active" data-month="all">전체</button>
+            <button class="month-tab" data-month="2">2월</button>
+            <button class="month-tab" data-month="3">3월</button>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-box">
+                <h3>월별 입금 / 지출</h3>
+                <canvas id="accountMonthlyChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>카테고리별 지출</h3>
+                <canvas id="accountCategoryChart"></canvas>
             </div>
         </div>
-        <div class="table-scroll">
-            <table class="tx-table">
-                <thead>
-                    <tr>
-                        <th>날짜</th>
-                        <th>내용</th>
-                        <th>카테고리</th>
-                        <th style="text-align:right">입금</th>
-                        <th style="text-align:right">출금</th>
-                        <th style="text-align:right">잔액</th>
-                    </tr>
-                </thead>
-                <tbody id="txBody"></tbody>
-            </table>
+
+        <div class="section-card">
+            <div class="section-header">
+                <span class="section-title">거래 내역</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="tx-filter-tabs" id="accountTxFilterTabs">
+                        <button class="tx-filter active" data-filter="all">전체</button>
+                        <button class="tx-filter" data-filter="income">입금</button>
+                        <button class="tx-filter" data-filter="expense">출금</button>
+                    </div>
+                    <span class="section-badge" id="accountTxCount"></span>
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table class="tx-table">
+                    <thead>
+                        <tr>
+                            <th>날짜</th>
+                            <th>내용</th>
+                            <th>카테고리</th>
+                            <th style="text-align:right">입금</th>
+                            <th style="text-align:right">출금</th>
+                            <th style="text-align:right">잔액</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accountTxBody"></tbody>
+                </table>
+            </div>
+            <div class="tx-card-list" id="accountTxCardList"></div>
         </div>
-        <!-- 모바일용 카드형 리스트 -->
-        <div class="tx-card-list" id="txCardList"></div>
+    </div>
+
+    <!-- ========== 카드 결제 뷰 ========== -->
+    <div class="view-panel" id="cardView">
+
+        <div class="summary-grid" id="cardSummaryGrid"></div>
+
+        <div class="month-tabs" id="cardMonthTabs">
+            <button class="month-tab active" data-month="all">전체</button>
+            <button class="month-tab" data-month="2">2월</button>
+            <button class="month-tab" data-month="3">3월</button>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-box">
+                <h3>월별 카드 사용액</h3>
+                <canvas id="cardMonthlyChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>카테고리별 지출</h3>
+                <canvas id="cardCategoryChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header">
+                <span class="section-title">카드 결제 내역</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="tx-filter-tabs" id="cardFilterTabs">
+                        <button class="tx-filter active" data-cat="all">전체</button>
+                        <button class="tx-filter" data-cat="food">식비</button>
+                        <button class="tx-filter" data-cat="shopping">쇼핑</button>
+                        <button class="tx-filter" data-cat="life">생활</button>
+                    </div>
+                    <span class="section-badge" id="cardTxCount"></span>
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table class="tx-table">
+                    <thead>
+                        <tr>
+                            <th>날짜</th>
+                            <th>가맹점</th>
+                            <th>카테고리</th>
+                            <th>카드</th>
+                            <th style="text-align:right">금액</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cardTxBody"></tbody>
+                </table>
+            </div>
+            <div class="tx-card-list" id="cardTxCardList"></div>
+        </div>
     </div>
 
 </main>
 
 <script>
-/* ── 거래 데이터 ── */
-const transactions = [
-    { date:"2026-02-05", time:"14:43:07", desc:"소연1월 소중월급", withdrawal:0, deposit:3880000, balance:3880000, memo:"모바일" },
+/* ================================================================
+   계좌 이체 데이터 (신한은행_거래내역조회_20260403 기준)
+   ================================================================ */
+const accountTx = [
+    { date:"2026-02-05", time:"14:25:34", desc:"이상혁 (잔액정리)", withdrawal:1133541, deposit:0, balance:0, memo:"모바일" },
+    { date:"2026-02-05", time:"14:43:07", desc:"소연 1월 월급", withdrawal:0, deposit:3880000, balance:3880000, memo:"모바일" },
     { date:"2026-02-05", time:"14:49:47", desc:"김소연 정산", withdrawal:200000, deposit:0, balance:3680000, memo:"모바일" },
     { date:"2026-02-05", time:"14:51:49", desc:"상혁 1월 급여", withdrawal:0, deposit:8521970, balance:12201970, memo:"타행모바일뱅킹" },
     { date:"2026-02-25", time:"05:49:55", desc:"상혁 2월 급여", withdrawal:0, deposit:1500000, balance:13701970, memo:"급여" },
@@ -101,6 +166,7 @@ const transactions = [
     { date:"2026-02-25", time:"18:02:53", desc:"신한카드 결제", withdrawal:239110, deposit:0, balance:13162860, memo:"카드결제" },
     { date:"2026-02-25", time:"18:36:54", desc:"관리비", withdrawal:215200, deposit:0, balance:12947660, memo:"FB자동" },
     { date:"2026-02-26", time:"15:15:09", desc:"우리카드 캐쉬백", withdrawal:0, deposit:7000, balance:12954660, memo:"인터넷뱅킹" },
+    { date:"2026-02-28", time:"14:07:24", desc:"캐나다 항공권", withdrawal:3003200, deposit:0, balance:9951460, memo:"모바일" },
     { date:"2026-02-28", time:"14:11:10", desc:"이상혁 (개인지출)", withdrawal:20000, deposit:0, balance:9931460, memo:"모바일" },
     { date:"2026-02-28", time:"14:24:01", desc:"이상혁 (개인지출)", withdrawal:55600, deposit:0, balance:9875860, memo:"모바일" },
     { date:"2026-03-03", time:"06:18:40", desc:"대출이자", withdrawal:434958, deposit:0, balance:9440902, memo:"대출이자" },
@@ -110,70 +176,176 @@ const transactions = [
     { date:"2026-03-21", time:"13:42:36", desc:"화분", withdrawal:60000, deposit:0, balance:12337195, memo:"모바일" },
     { date:"2026-03-21", time:"17:13:45", desc:"풋샵 적립금", withdrawal:330000, deposit:0, balance:12007195, memo:"모바일" },
     { date:"2026-03-22", time:"21:18:04", desc:"김소연 (이체)", withdrawal:130000, deposit:0, balance:11877195, memo:"모바일" },
-    { date:"2026-03-25", time:"05:50:34", desc:"상혁 3월 월급", withdrawal:0, deposit:1500000, balance:13377195, memo:"분당중" },
+    { date:"2026-03-25", time:"05:50:34", desc:"상혁 3월 월급", withdrawal:0, deposit:1500000, balance:13377195, memo:"급여" },
     { date:"2026-03-25", time:"08:18:22", desc:"자동이체 (적금)", withdrawal:300000, deposit:0, balance:13077195, memo:"자동이체" },
     { date:"2026-03-25", time:"18:01:37", desc:"신한카드 결제", withdrawal:851950, deposit:0, balance:12225245, memo:"카드결제" },
-    { date:"2026-03-25", time:"18:35:29", desc:"관리비", withdrawal:247440, deposit:0, balance:9221805, memo:"FB자동" },
-    { date:"2026-03-25", time:"18:35:29", desc:"캐나다 항공권", withdrawal:3003200, deposit:0, balance:8974605, memo:"FB자동" },
+    { date:"2026-03-25", time:"18:35:29", desc:"우리카드 결제", withdrawal:3250640, deposit:0, balance:8974605, memo:"FB자동" },
     { date:"2026-03-27", time:"16:55:40", desc:"김소연 3월 월급", withdrawal:0, deposit:2680000, balance:11654605, memo:"모바일" },
     { date:"2026-03-27", time:"17:20:56", desc:"코스트코", withdrawal:180000, deposit:0, balance:11474605, memo:"모바일" },
-    { date:"2026-03-27", time:"17:57:06", desc:"상혁 2월 월급 추가분", withdrawal:0, deposit:300000, balance:14777805, memo:"모바일" },
-    { date:"2026-03-27", time:"17:58:34", desc:"상혁 3월 월급 추가분", withdrawal:0, deposit:3980000, balance:18757805, memo:"모바일" },
+    { date:"2026-03-27", time:"17:21:36", desc:"상혁 항공권 환입", withdrawal:0, deposit:3003200, balance:14477805, memo:"타행모바일뱅킹" },
+    { date:"2026-03-27", time:"17:57:06", desc:"상혁 2월 월급 추가분", withdrawal:0, deposit:300000, balance:14777805, memo:"타행모바일뱅킹" },
+    { date:"2026-03-27", time:"17:58:34", desc:"상혁 3월 월급 추가분", withdrawal:0, deposit:3980000, balance:18757805, memo:"타행모바일뱅킹" },
+    { date:"2026-03-30", time:"06:02:23", desc:"대출이자", withdrawal:445248, deposit:0, balance:18312557, memo:"대출이자" },
 ];
 
-/* ── 카테고리 분류 ── */
-function categorize(tx) {
-    const d = tx.desc.toLowerCase();
-    if (tx.deposit > 0) {
-        if (d.includes("월급") || d.includes("급여")) return { name:"급여", cls:"cat-salary" };
-        if (d.includes("이자")) return { name:"이자", cls:"cat-interest" };
-        if (d.includes("캐쉬백")) return { name:"기타수입", cls:"cat-etc" };
-        return { name:"입금", cls:"cat-salary" };
-    }
-    if (d.includes("관리비")) return { name:"주거", cls:"cat-housing" };
-    if (d.includes("항공")) return { name:"여행", cls:"cat-shopping" };
-    if (d.includes("카드") || d.includes("신한카드")) return { name:"카드결제", cls:"cat-card" };
-    if (d.includes("대출") || d.includes("이자")) return { name:"금융", cls:"cat-finance" };
-    if (d.includes("적금") || d.includes("자동이체") || d.includes("230373")) return { name:"저축", cls:"cat-savings" };
-    if (d.includes("코스트코") || d.includes("화분") || d.includes("풋샵")) return { name:"쇼핑/생활", cls:"cat-shopping" };
-    if (d.includes("정산") || d.includes("개인")) return { name:"개인지출", cls:"cat-etc" };
-    return { name:"기타", cls:"cat-etc" };
-}
+/* ================================================================
+   카드 결제 데이터 (Shinhancard_20260403 기준)
+   ================================================================ */
+const cardTx = [
+    { date:"2026-02-07", time:"06:44", store:"씨제이대한통운 경기고속주유소", amount:40000, cardType:"체크", installment:"일시불" },
+    { date:"2026-02-08", time:"15:43", store:"Apple", amount:6500, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-09", time:"13:07", store:"Apple", amount:31000, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-09", time:"22:07", store:"컬리페이", amount:61640, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-16", time:"12:21", store:"씨유(CU) 공덕래미안4차점", amount:6000, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-17", time:"14:19", store:"기요한", amount:41000, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-17", time:"16:33", store:"빈브라더스 커피하우스", amount:34500, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-18", time:"18:38", store:"에프알엘코리아 (유니클로)", amount:169600, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-20", time:"13:30", store:"서울도시가스", amount:191950, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-21", time:"20:04", store:"Apple", amount:10800, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-21", time:"21:32", store:"씨유(CU) 공덕래미안4차점", amount:6400, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-23", time:"07:57", store:"희성석유 금곡주유소", amount:50000, cardType:"체크", installment:"일시불" },
+    { date:"2026-02-27", time:"20:34", store:"야키토리 쇼몽", amount:117600, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-27", time:"21:26", store:"플릭팜", amount:37000, cardType:"신용", installment:"일시불" },
+    { date:"2026-02-28", time:"12:06", store:"Apple", amount:3300, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-01", time:"16:58", store:"파네트", amount:6000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-06", time:"20:00", store:"본점 마포갈매기", amount:48000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-06", time:"20:23", store:"파네트", amount:4600, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-06", time:"20:31", store:"씨유(CU) 공덕래미안4차점", amount:5000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-07", time:"18:48", store:"오늘", amount:8000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-08", time:"11:54", store:"파네트", amount:52800, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-08", time:"11:55", store:"파네트", amount:21000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-09", time:"12:22", store:"텐퍼센트 (마곡역점)", amount:12500, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-11", time:"15:58", store:"무인양품 원그로브점", amount:4900, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-11", time:"18:30", store:"쿠팡", amount:71000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-13", time:"19:59", store:"GS25 뉴마포금솔점", amount:13500, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-13", time:"20:49", store:"3.5cm 왕소금구이", amount:43000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-14", time:"13:47", store:"시칠리 (sicili)", amount:126500, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-14", time:"15:00", store:"엔지니어링 클럽", amount:19800, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-14", time:"17:37", store:"컬리페이", amount:47910, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-14", time:"19:22", store:"오늘", amount:6000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-18", time:"19:31", store:"김가네김밥", amount:5500, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-18", time:"20:32", store:"희성석유 금곡주유소", amount:40000, cardType:"체크", installment:"일시불" },
+    { date:"2026-03-19", time:"18:31", store:"무인양품 원그로브점", amount:113610, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-20", time:"13:34", store:"서울도시가스", amount:147340, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-20", time:"20:35", store:"램하우스", amount:167000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-20", time:"21:35", store:"앤티도트 (Antidote)", amount:75000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-20", time:"23:00", store:"길바닥", amount:47000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-20", time:"23:20", store:"티머니 개인택시", amount:13000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-21", time:"12:47", store:"고향 엄마손 바지락 칼국수", amount:20200, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-21", time:"13:59", store:"영앤도터스", amount:12100, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-21", time:"14:13", store:"파네트", amount:11500, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-21", time:"19:59", store:"소문난쭈꾸미", amount:68000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-22", time:"20:46", store:"쿠팡", amount:35450, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-23", time:"19:04", store:"오늘", amount:8000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-24", time:"14:52", store:"무인양품 원그로브점", amount:7900, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-24", time:"20:55", store:"아성다이소", amount:5000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-24", time:"21:46", store:"씨유(CU) 공덕래미안4차점", amount:21480, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-25", time:"12:02", store:"쿠쿠홈시스", amount:27800, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-25", time:"19:10", store:"쿠팡이츠", amount:16500, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-27", time:"11:42", store:"어닝바", amount:15500, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-27", time:"14:29", store:"쿠팡", amount:59100, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-27", time:"14:40", store:"쿠팡", amount:16600, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-27", time:"19:58", store:"열날개", amount:43000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-29", time:"01:02", store:"쿠팡", amount:23680, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-29", time:"15:46", store:"후엘고 (huelgo)", amount:13500, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-29", time:"16:30", store:"파티세리 영원", amount:19000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-29", time:"16:51", store:"을밀대", amount:32000, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-29", time:"17:43", store:"씨유(CU) 공덕래미안4차점", amount:6500, cardType:"신용", installment:"일시불" },
+    { date:"2026-03-31", time:"11:04", store:"Apple", amount:3300, cardType:"신용", installment:"일시불" },
+];
 
-/* ── 숫자 포맷 ── */
+/* ================================================================
+   공통 유틸
+   ================================================================ */
 function fmt(n) {
     if (!n) return "-";
     return n.toLocaleString("ko-KR") + "원";
 }
 
-/* ── 필터 상태 ── */
-let currentMonth = "all";
-let currentTxFilter = "all";
+/* ── 계좌이체 카테고리 ── */
+function categorizeAccount(tx) {
+    const d = tx.desc.toLowerCase();
+    if (tx.deposit > 0) {
+        if (d.includes("월급") || d.includes("급여")) return { name:"급여", cls:"cat-salary" };
+        if (d.includes("이자")) return { name:"이자", cls:"cat-interest" };
+        if (d.includes("캐쉬백")) return { name:"기타수입", cls:"cat-etc" };
+        if (d.includes("환입")) return { name:"환입", cls:"cat-interest" };
+        return { name:"입금", cls:"cat-salary" };
+    }
+    if (d.includes("관리비")) return { name:"주거", cls:"cat-housing" };
+    if (d.includes("항공")) return { name:"여행", cls:"cat-travel" };
+    if (d.includes("카드")) return { name:"카드결제", cls:"cat-card" };
+    if (d.includes("대출") || d.includes("이자")) return { name:"금융", cls:"cat-finance" };
+    if (d.includes("적금") || d.includes("자동이체")) return { name:"저축", cls:"cat-savings" };
+    if (d.includes("코스트코") || d.includes("화분") || d.includes("풋샵")) return { name:"쇼핑/생활", cls:"cat-shopping" };
+    if (d.includes("정산") || d.includes("개인") || d.includes("잔액정리")) return { name:"개인지출", cls:"cat-etc" };
+    return { name:"기타", cls:"cat-etc" };
+}
 
-function getFiltered() {
-    let data = transactions;
-    if (currentMonth !== "all") {
-        data = data.filter(tx => parseInt(tx.date.split("-")[1]) === parseInt(currentMonth));
+/* ── 카드결제 카테고리 ── */
+function categorizeCard(tx) {
+    const s = tx.store.toLowerCase();
+    // 외식/식당
+    if (/을밀대|열날개|램하우스|마포갈매기|쭈꾸미|칼국수|쇼몽|시칠리|기요한|왕소금|후엘고|앤티도트|길바닥|김가네/.test(s))
+        return { name:"외식", cls:"cat-food", group:"food" };
+    // 카페/베이커리
+    if (/파네트|빈브라더스|텐퍼센트|어닝바|영앤도터스|파티세리|오늘|엔지니어링 클럽/.test(s))
+        return { name:"카페", cls:"cat-cafe", group:"food" };
+    // 편의점
+    if (/씨유|cu|gs25/.test(s))
+        return { name:"편의점", cls:"cat-conv", group:"food" };
+    // 온라인쇼핑
+    if (/쿠팡|컬리|플릭팜/.test(s))
+        return { name:"온라인쇼핑", cls:"cat-shopping", group:"shopping" };
+    // 생활용품
+    if (/무인양품|다이소|쿠쿠/.test(s))
+        return { name:"생활용품", cls:"cat-life", group:"shopping" };
+    // 의류
+    if (/에프알엘|유니클로/.test(s))
+        return { name:"의류", cls:"cat-fashion", group:"shopping" };
+    // 공과금
+    if (/도시가스/.test(s))
+        return { name:"공과금", cls:"cat-housing", group:"life" };
+    // 교통/주유
+    if (/주유|택시/.test(s))
+        return { name:"교통/주유", cls:"cat-transport", group:"life" };
+    // 구독
+    if (/apple/.test(s))
+        return { name:"구독", cls:"cat-sub", group:"life" };
+    // 배달
+    if (/쿠팡이츠/.test(s))
+        return { name:"배달", cls:"cat-food", group:"food" };
+    return { name:"기타", cls:"cat-etc", group:"life" };
+}
+
+/* ================================================================
+   계좌 이체 뷰
+   ================================================================ */
+let acctMonth = "all";
+let acctTxFilter = "all";
+
+function getAcctFiltered() {
+    let data = accountTx;
+    if (acctMonth !== "all") {
+        data = data.filter(tx => parseInt(tx.date.split("-")[1]) === parseInt(acctMonth));
     }
     return data;
 }
 
-function getTableFiltered() {
-    let data = getFiltered();
-    if (currentTxFilter === "income") data = data.filter(tx => tx.deposit > 0);
-    if (currentTxFilter === "expense") data = data.filter(tx => tx.withdrawal > 0);
+function getAcctTableFiltered() {
+    let data = getAcctFiltered();
+    if (acctTxFilter === "income") data = data.filter(tx => tx.deposit > 0);
+    if (acctTxFilter === "expense") data = data.filter(tx => tx.withdrawal > 0);
     return data;
 }
 
-/* ── 요약 카드 렌더 ── */
-function renderSummary() {
-    const data = getFiltered();
+function renderAcctSummary() {
+    const data = getAcctFiltered();
     const totalIn = data.reduce((s,t) => s + t.deposit, 0);
     const totalOut = data.reduce((s,t) => s + t.withdrawal, 0);
-    const lastBalance = transactions[transactions.length - 1].balance;
+    const lastBalance = accountTx[accountTx.length - 1].balance;
 
-    const grid = document.getElementById("summaryGrid");
-    grid.innerHTML = `
+    document.getElementById("accountSummaryGrid").innerHTML = `
         <div class="summary-card">
             <div class="label">총 입금</div>
             <div class="value income">${fmt(totalIn)}</div>
@@ -191,19 +363,17 @@ function renderSummary() {
         <div class="summary-card">
             <div class="label">현재 잔액</div>
             <div class="value balance">${fmt(lastBalance)}</div>
-            <div class="sub">3월 27일 기준</div>
+            <div class="sub">3월 30일 기준</div>
         </div>
     `;
 }
 
-/* ── 테이블 렌더 ── */
-function renderTable() {
-    const data = [...getTableFiltered()].reverse();
-    const tbody = document.getElementById("txBody");
-    document.getElementById("txCount").textContent = data.length + "건";
+function renderAcctTable() {
+    const data = [...getAcctTableFiltered()].reverse();
+    document.getElementById("accountTxCount").textContent = data.length + "건";
 
-    tbody.innerHTML = data.map(tx => {
-        const cat = categorize(tx);
+    document.getElementById("accountTxBody").innerHTML = data.map(tx => {
+        const cat = categorizeAccount(tx);
         return `<tr>
             <td class="tx-date">${tx.date.slice(5)}<br><span class="tx-time">${tx.time.slice(0,5)}</span></td>
             <td class="tx-desc">${tx.desc}</td>
@@ -214,9 +384,8 @@ function renderTable() {
         </tr>`;
     }).join("");
 
-    /* 모바일 카드형 */
-    document.getElementById("txCardList").innerHTML = data.map(tx => {
-        const cat = categorize(tx);
+    document.getElementById("accountTxCardList").innerHTML = data.map(tx => {
+        const cat = categorizeAccount(tx);
         const isIncome = tx.deposit > 0;
         const amount = isIncome ? "+" + fmt(tx.deposit) : "-" + fmt(tx.withdrawal);
         return `<div class="tx-card-item">
@@ -233,24 +402,25 @@ function renderTable() {
     }).join("");
 }
 
-/* ── 차트: 월별 입금/지출 ── */
-let monthlyChart, categoryChart;
+let acctMonthlyChart, acctCategoryChart;
 
-function renderMonthlyChart() {
+function renderAcctMonthlyChart() {
     const months = ["2월", "3월"];
     const incomeByMonth = [0, 0];
     const expenseByMonth = [0, 0];
 
-    transactions.forEach(tx => {
+    accountTx.forEach(tx => {
         const m = parseInt(tx.date.split("-")[1]) - 2;
-        incomeByMonth[m] += tx.deposit;
-        expenseByMonth[m] += tx.withdrawal;
+        if (m >= 0 && m < 2) {
+            incomeByMonth[m] += tx.deposit;
+            expenseByMonth[m] += tx.withdrawal;
+        }
     });
 
-    const ctx = document.getElementById("monthlyChart").getContext("2d");
-    if (monthlyChart) monthlyChart.destroy();
+    const ctx = document.getElementById("accountMonthlyChart").getContext("2d");
+    if (acctMonthlyChart) acctMonthlyChart.destroy();
 
-    monthlyChart = new Chart(ctx, {
+    acctMonthlyChart = new Chart(ctx, {
         type: "bar",
         data: {
             labels: months,
@@ -266,48 +436,34 @@ function renderMonthlyChart() {
                 tooltip: { callbacks: { label: ctx => ctx.dataset.label + ": " + fmt(ctx.raw) } }
             },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { callback: v => (v/10000).toLocaleString() + "만", font: { size: 11 } },
-                    grid: { color: "rgba(0,0,0,0.04)" }
-                },
+                y: { beginAtZero: true, ticks: { callback: v => (v/10000).toLocaleString() + "만", font: { size: 11 } }, grid: { color: "rgba(0,0,0,0.04)" } },
                 x: { grid: { display: false } }
             }
         }
     });
 }
 
-/* ── 차트: 카테고리별 지출 ── */
-function renderCategoryChart() {
-    const data = getFiltered().filter(t => t.withdrawal > 0);
+function renderAcctCategoryChart() {
+    const data = getAcctFiltered().filter(t => t.withdrawal > 0);
     const catMap = {};
-
     data.forEach(tx => {
-        const cat = categorize(tx);
+        const cat = categorizeAccount(tx);
         catMap[cat.name] = (catMap[cat.name] || 0) + tx.withdrawal;
     });
 
     const sorted = Object.entries(catMap).sort((a,b) => b[1] - a[1]);
     const labels = sorted.map(e => e[0]);
     const values = sorted.map(e => e[1]);
+    const colors = ["#e8985e","#5a8fcc","#2e8b57","#d35450","#8e6bbf","#e6a23c","#5dade2","#999","#66bb6a"];
 
-    const colors = [
-        "#e8985e","#5a8fcc","#2e8b57","#d35450","#8e6bbf",
-        "#e6a23c","#5dade2","#999"
-    ];
+    const ctx = document.getElementById("accountCategoryChart").getContext("2d");
+    if (acctCategoryChart) acctCategoryChart.destroy();
 
-    const ctx = document.getElementById("categoryChart").getContext("2d");
-    if (categoryChart) categoryChart.destroy();
-
-    categoryChart = new Chart(ctx, {
+    acctCategoryChart = new Chart(ctx, {
         type: "doughnut",
-        data: {
-            labels: labels,
-            datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 0, spacing: 2 }]
-        },
+        data: { labels, datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 0, spacing: 2 }] },
         options: {
-            responsive: true,
-            cutout: "55%",
+            responsive: true, cutout: "55%",
             plugins: {
                 legend: { position: "bottom", labels: { boxWidth: 10, padding: 12, font: { size: 12 } } },
                 tooltip: { callbacks: { label: ctx => ctx.label + ": " + fmt(ctx.raw) } }
@@ -316,37 +472,220 @@ function renderCategoryChart() {
     });
 }
 
-/* ── 월별 탭 이벤트 ── */
-document.getElementById("monthTabs").addEventListener("click", (e) => {
+/* ── 계좌이체 이벤트 ── */
+document.getElementById("accountMonthTabs").addEventListener("click", (e) => {
     const btn = e.target.closest(".month-tab");
     if (!btn) return;
-
-    document.querySelectorAll(".month-tab").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll("#accountMonthTabs .month-tab").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    currentMonth = btn.dataset.month;
-
-    renderSummary();
-    renderTable();
-    renderCategoryChart();
+    acctMonth = btn.dataset.month;
+    renderAcctSummary(); renderAcctTable(); renderAcctCategoryChart();
 });
 
-/* ── 입금/출금 필터 이벤트 ── */
-document.getElementById("txFilterTabs").addEventListener("click", (e) => {
+document.getElementById("accountTxFilterTabs").addEventListener("click", (e) => {
     const btn = e.target.closest(".tx-filter");
     if (!btn) return;
-
-    document.querySelectorAll(".tx-filter").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll("#accountTxFilterTabs .tx-filter").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    currentTxFilter = btn.dataset.filter;
-
-    renderTable();
+    acctTxFilter = btn.dataset.filter;
+    renderAcctTable();
 });
 
-/* ── 초기 렌더 ── */
-renderSummary();
-renderTable();
-renderMonthlyChart();
-renderCategoryChart();
+/* ================================================================
+   카드 결제 뷰
+   ================================================================ */
+let cardMonth = "all";
+let cardCatFilter = "all";
+
+function getCardFiltered() {
+    let data = cardTx;
+    if (cardMonth !== "all") {
+        data = data.filter(tx => parseInt(tx.date.split("-")[1]) === parseInt(cardMonth));
+    }
+    return data;
+}
+
+function getCardTableFiltered() {
+    let data = getCardFiltered();
+    if (cardCatFilter !== "all") {
+        data = data.filter(tx => categorizeCard(tx).group === cardCatFilter);
+    }
+    return data;
+}
+
+function renderCardSummary() {
+    const data = getCardFiltered();
+    const total = data.reduce((s,t) => s + t.amount, 0);
+    const credit = data.filter(t => t.cardType === "신용");
+    const check = data.filter(t => t.cardType === "체크");
+
+    document.getElementById("cardSummaryGrid").innerHTML = `
+        <div class="summary-card">
+            <div class="label">총 결제금액</div>
+            <div class="value expense">${fmt(total)}</div>
+            <div class="sub">${data.length}건</div>
+        </div>
+        <div class="summary-card">
+            <div class="label">신용카드</div>
+            <div class="value expense">${fmt(credit.reduce((s,t) => s + t.amount, 0))}</div>
+            <div class="sub">${credit.length}건</div>
+        </div>
+        <div class="summary-card">
+            <div class="label">체크카드</div>
+            <div class="value expense">${fmt(check.reduce((s,t) => s + t.amount, 0))}</div>
+            <div class="sub">${check.length}건</div>
+        </div>
+        <div class="summary-card">
+            <div class="label">건당 평균</div>
+            <div class="value balance">${fmt(Math.round(total / data.length))}</div>
+            <div class="sub">최대 ${fmt(Math.max(...data.map(t=>t.amount)))}</div>
+        </div>
+    `;
+}
+
+function renderCardTable() {
+    const data = [...getCardTableFiltered()].reverse();
+    document.getElementById("cardTxCount").textContent = data.length + "건";
+
+    document.getElementById("cardTxBody").innerHTML = data.map(tx => {
+        const cat = categorizeCard(tx);
+        return `<tr>
+            <td class="tx-date">${tx.date.slice(5)}<br><span class="tx-time">${tx.time}</span></td>
+            <td class="tx-desc">${tx.store}</td>
+            <td><span class="tx-category ${cat.cls}">${cat.name}</span></td>
+            <td class="tx-card-type"><span class="card-badge ${tx.cardType === '신용' ? 'credit' : 'debit'}">${tx.cardType}</span></td>
+            <td class="tx-amount expense">${fmt(tx.amount)}</td>
+        </tr>`;
+    }).join("");
+
+    document.getElementById("cardTxCardList").innerHTML = data.map(tx => {
+        const cat = categorizeCard(tx);
+        return `<div class="tx-card-item">
+            <div class="tx-card-top">
+                <span class="tx-card-desc">${tx.store}</span>
+                <span class="tx-card-amount expense">${fmt(tx.amount)}</span>
+            </div>
+            <div class="tx-card-bottom">
+                <span>${tx.date.slice(5)} ${tx.time}</span>
+                <span class="tx-category ${cat.cls}">${cat.name}</span>
+                <span class="card-badge ${tx.cardType === '신용' ? 'credit' : 'debit'}">${tx.cardType}</span>
+            </div>
+        </div>`;
+    }).join("");
+}
+
+let cardMonthChart, cardCatChart;
+
+function renderCardMonthlyChart() {
+    const months = ["2월", "3월"];
+    const amountByMonth = [0, 0];
+
+    cardTx.forEach(tx => {
+        const m = parseInt(tx.date.split("-")[1]) - 2;
+        if (m >= 0 && m < 2) amountByMonth[m] += tx.amount;
+    });
+
+    const ctx = document.getElementById("cardMonthlyChart").getContext("2d");
+    if (cardMonthChart) cardMonthChart.destroy();
+
+    cardMonthChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: months,
+            datasets: [{ label: "카드 결제", data: amountByMonth, backgroundColor: ["rgba(90,143,204,0.65)","rgba(232,152,94,0.65)"], borderRadius: 6 }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: "bottom", labels: { boxWidth: 12, padding: 16, font: { size: 12 } } },
+                tooltip: { callbacks: { label: ctx => fmt(ctx.raw) } }
+            },
+            scales: {
+                y: { beginAtZero: true, ticks: { callback: v => (v/10000).toLocaleString() + "만", font: { size: 11 } }, grid: { color: "rgba(0,0,0,0.04)" } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+function renderCardCategoryChart() {
+    const data = getCardFiltered();
+    const catMap = {};
+    data.forEach(tx => {
+        const cat = categorizeCard(tx);
+        catMap[cat.name] = (catMap[cat.name] || 0) + tx.amount;
+    });
+
+    const sorted = Object.entries(catMap).sort((a,b) => b[1] - a[1]);
+    const labels = sorted.map(e => e[0]);
+    const values = sorted.map(e => e[1]);
+    const colors = ["#e8985e","#5a8fcc","#2e8b57","#d35450","#8e6bbf","#e6a23c","#5dade2","#66bb6a","#ef9a9a","#999"];
+
+    const ctx = document.getElementById("cardCategoryChart").getContext("2d");
+    if (cardCatChart) cardCatChart.destroy();
+
+    cardCatChart = new Chart(ctx, {
+        type: "doughnut",
+        data: { labels, datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 0, spacing: 2 }] },
+        options: {
+            responsive: true, cutout: "55%",
+            plugins: {
+                legend: { position: "bottom", labels: { boxWidth: 10, padding: 12, font: { size: 12 } } },
+                tooltip: { callbacks: { label: ctx => ctx.label + ": " + fmt(ctx.raw) } }
+            }
+        }
+    });
+}
+
+/* ── 카드결제 이벤트 ── */
+document.getElementById("cardMonthTabs").addEventListener("click", (e) => {
+    const btn = e.target.closest(".month-tab");
+    if (!btn) return;
+    document.querySelectorAll("#cardMonthTabs .month-tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    cardMonth = btn.dataset.month;
+    renderCardSummary(); renderCardTable(); renderCardCategoryChart();
+});
+
+document.getElementById("cardFilterTabs").addEventListener("click", (e) => {
+    const btn = e.target.closest(".tx-filter");
+    if (!btn) return;
+    document.querySelectorAll("#cardFilterTabs .tx-filter").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    cardCatFilter = btn.dataset.cat;
+    renderCardTable();
+});
+
+/* ================================================================
+   뷰 탭 전환
+   ================================================================ */
+let cardInitialized = false;
+
+document.getElementById("viewTabs").addEventListener("click", (e) => {
+    const btn = e.target.closest(".view-tab");
+    if (!btn) return;
+
+    document.querySelectorAll(".view-tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const view = btn.dataset.view;
+    document.getElementById("accountView").classList.toggle("active", view === "account");
+    document.getElementById("cardView").classList.toggle("active", view === "card");
+
+    if (view === "card" && !cardInitialized) {
+        cardInitialized = true;
+        renderCardSummary();
+        renderCardTable();
+        renderCardMonthlyChart();
+        renderCardCategoryChart();
+    }
+});
+
+/* ── 초기 렌더 (계좌이체) ── */
+renderAcctSummary();
+renderAcctTable();
+renderAcctMonthlyChart();
+renderAcctCategoryChart();
 </script>
 
 </body>
