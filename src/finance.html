@@ -139,7 +139,6 @@
                             <th>날짜</th>
                             <th>가맹점</th>
                             <th>카테고리</th>
-                            <th>카드</th>
                             <th style="text-align:right">금액</th>
                         </tr>
                     </thead>
@@ -192,7 +191,6 @@ const accountTx = [
    카드 결제 데이터 (Shinhancard_20260403 기준)
    ================================================================ */
 const cardTx = [
-    { date:"2026-02-07", time:"06:44", store:"씨제이대한통운 경기고속주유소", amount:40000, cardType:"체크", installment:"일시불" },
     { date:"2026-02-08", time:"15:43", store:"Apple", amount:6500, cardType:"신용", installment:"일시불" },
     { date:"2026-02-09", time:"13:07", store:"Apple", amount:31000, cardType:"신용", installment:"일시불" },
     { date:"2026-02-09", time:"22:07", store:"컬리페이", amount:61640, cardType:"신용", installment:"일시불" },
@@ -203,7 +201,6 @@ const cardTx = [
     { date:"2026-02-20", time:"13:30", store:"서울도시가스", amount:191950, cardType:"신용", installment:"일시불" },
     { date:"2026-02-21", time:"20:04", store:"Apple", amount:10800, cardType:"신용", installment:"일시불" },
     { date:"2026-02-21", time:"21:32", store:"씨유(CU) 공덕래미안4차점", amount:6400, cardType:"신용", installment:"일시불" },
-    { date:"2026-02-23", time:"07:57", store:"희성석유 금곡주유소", amount:50000, cardType:"체크", installment:"일시불" },
     { date:"2026-02-27", time:"20:34", store:"야키토리 쇼몽", amount:117600, cardType:"신용", installment:"일시불" },
     { date:"2026-02-27", time:"21:26", store:"플릭팜", amount:37000, cardType:"신용", installment:"일시불" },
     { date:"2026-02-28", time:"12:06", store:"Apple", amount:3300, cardType:"신용", installment:"일시불" },
@@ -224,7 +221,6 @@ const cardTx = [
     { date:"2026-03-14", time:"17:37", store:"컬리페이", amount:47910, cardType:"신용", installment:"일시불" },
     { date:"2026-03-14", time:"19:22", store:"오늘", amount:6000, cardType:"신용", installment:"일시불" },
     { date:"2026-03-18", time:"19:31", store:"김가네김밥", amount:5500, cardType:"신용", installment:"일시불" },
-    { date:"2026-03-18", time:"20:32", store:"희성석유 금곡주유소", amount:40000, cardType:"체크", installment:"일시불" },
     { date:"2026-03-19", time:"18:31", store:"무인양품 원그로브점", amount:113610, cardType:"신용", installment:"일시불" },
     { date:"2026-03-20", time:"13:34", store:"서울도시가스", amount:147340, cardType:"신용", installment:"일시불" },
     { date:"2026-03-20", time:"20:35", store:"램하우스", amount:167000, cardType:"신용", installment:"일시불" },
@@ -516,8 +512,8 @@ function getCardTableFiltered() {
 function renderCardSummary() {
     const data = getCardFiltered();
     const total = data.reduce((s,t) => s + t.amount, 0);
-    const credit = data.filter(t => t.cardType === "신용");
-    const check = data.filter(t => t.cardType === "체크");
+    const febTotal = data.filter(t => t.date.split("-")[1] === "02").reduce((s,t) => s + t.amount, 0);
+    const marTotal = data.filter(t => t.date.split("-")[1] === "03").reduce((s,t) => s + t.amount, 0);
 
     document.getElementById("cardSummaryGrid").innerHTML = `
         <div class="summary-card">
@@ -526,14 +522,14 @@ function renderCardSummary() {
             <div class="sub">${data.length}건</div>
         </div>
         <div class="summary-card">
-            <div class="label">신용카드</div>
-            <div class="value expense">${fmt(credit.reduce((s,t) => s + t.amount, 0))}</div>
-            <div class="sub">${credit.length}건</div>
+            <div class="label">2월 결제</div>
+            <div class="value expense">${fmt(febTotal)}</div>
+            <div class="sub">${data.filter(t => t.date.split("-")[1] === "02").length}건</div>
         </div>
         <div class="summary-card">
-            <div class="label">체크카드</div>
-            <div class="value expense">${fmt(check.reduce((s,t) => s + t.amount, 0))}</div>
-            <div class="sub">${check.length}건</div>
+            <div class="label">3월 결제</div>
+            <div class="value expense">${fmt(marTotal)}</div>
+            <div class="sub">${data.filter(t => t.date.split("-")[1] === "03").length}건</div>
         </div>
         <div class="summary-card">
             <div class="label">건당 평균</div>
@@ -553,7 +549,6 @@ function renderCardTable() {
             <td class="tx-date">${tx.date.slice(5)}<br><span class="tx-time">${tx.time}</span></td>
             <td class="tx-desc">${tx.store}</td>
             <td><span class="tx-category ${cat.cls}">${cat.name}</span></td>
-            <td class="tx-card-type"><span class="card-badge ${tx.cardType === '신용' ? 'credit' : 'debit'}">${tx.cardType}</span></td>
             <td class="tx-amount expense">${fmt(tx.amount)}</td>
         </tr>`;
     }).join("");
@@ -568,7 +563,7 @@ function renderCardTable() {
             <div class="tx-card-bottom">
                 <span>${tx.date.slice(5)} ${tx.time}</span>
                 <span class="tx-category ${cat.cls}">${cat.name}</span>
-                <span class="card-badge ${tx.cardType === '신용' ? 'credit' : 'debit'}">${tx.cardType}</span>
+                <span class="tx-category ${cat.cls}">${cat.name}</span>
             </div>
         </div>`;
     }).join("");
