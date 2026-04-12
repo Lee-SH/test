@@ -106,6 +106,7 @@
             <button class="month-tab active" data-month="all">전체</button>
             <button class="month-tab" data-month="2">2월</button>
             <button class="month-tab" data-month="3">3월</button>
+            <button class="month-tab" data-month="4">4월</button>
         </div>
 
         <div class="charts-grid">
@@ -185,10 +186,11 @@ const accountTx = [
     { date:"2026-03-27", time:"17:57:06", desc:"상혁 2월 월급 추가분", withdrawal:0, deposit:300000, balance:14777805, memo:"타행모바일뱅킹" },
     { date:"2026-03-27", time:"17:58:34", desc:"상혁 3월 월급 추가분", withdrawal:0, deposit:3980000, balance:18757805, memo:"타행모바일뱅킹" },
     { date:"2026-03-30", time:"06:02:23", desc:"대출이자", withdrawal:445248, deposit:0, balance:18312557, memo:"대출이자" },
+    { date:"2026-03-31", time:"21:11:10", desc:"형수,할머니 선물", withdrawal:310000, deposit:0, balance:18002557, memo:"모바일" },
 ];
 
 /* ================================================================
-   카드 결제 데이터 (Shinhancard_20260403 기준)
+   카드 결제 데이터 (Shinhancard_20260403 + 신한0401-0412 기준)
    ================================================================ */
 const cardTx = [
     { date:"2026-02-09", time:"22:07", store:"컬리페이", amount:61640, cardType:"신용", installment:"일시불" },
@@ -243,6 +245,27 @@ const cardTx = [
     { date:"2026-03-29", time:"16:30", store:"파티세리 영원", amount:19000, cardType:"신용", installment:"일시불" },
     { date:"2026-03-29", time:"16:51", store:"을밀대", amount:32000, cardType:"신용", installment:"일시불" },
     { date:"2026-03-29", time:"17:43", store:"씨유(CU) 공덕래미안4차점", amount:6500, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-03", time:"21:37", store:"하늘전따지", amount:56000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-03", time:"21:44", store:"슈가코인노래연습장 공덕점", amount:13000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-04", time:"12:07", store:"봉평옹심이메밀칼국수", amount:30000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-04", time:"13:11", store:"캐피", amount:6000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-05", time:"12:21", store:"2층바로약국", amount:7300, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-05", time:"12:23", store:"2층바로약국", amount:8000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-05", time:"12:37", store:"올리브영 공덕역점", amount:15800, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-05", time:"13:48", store:"옥소반 공덕역점", amount:51800, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-05", time:"14:07", store:"씨유(CU) 공덕래미안4차점", amount:7100, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-05", time:"15:18", store:"쿠팡", amount:23790, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-05", time:"18:19", store:"쿠팡이츠", amount:18100, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-05", time:"19:25", store:"네이버페이", amount:68020, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-09", time:"11:45", store:"포36거리", amount:38200, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-09", time:"12:22", store:"텐퍼센트 (마곡역점)", amount:11400, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-10", time:"19:53", store:"에프알엘코리아 (유니클로)", amount:39900, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-10", time:"20:38", store:"최강어묵", amount:4000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-11", time:"14:20", store:"쿠팡이츠", amount:16400, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-11", time:"18:26", store:"현대백화점 신촌점", amount:79900, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-11", time:"20:10", store:"프로토콜 (protokoll)", amount:31300, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-12", time:"12:03", store:"황금콩밭", amount:26000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-12", time:"12:17", store:"파네트", amount:21000, cardType:"신용", installment:"일시불" },
 ];
 
 /* ================================================================
@@ -269,6 +292,7 @@ function categorizeAccount(tx) {
     if (d.includes("대출") || d.includes("이자")) return { name:"금융", cls:"cat-finance" };
     if (d.includes("적금") || d.includes("자동이체")) return { name:"저축", cls:"cat-savings" };
     if (d.includes("코스트코") || d.includes("화분") || d.includes("풋샵")) return { name:"쇼핑/생활", cls:"cat-shopping" };
+    if (d.includes("선물")) return { name:"경조/선물", cls:"cat-etc" };
     if (d.includes("정산") || d.includes("개인") || d.includes("잔액정리")) return { name:"개인지출", cls:"cat-etc" };
     return { name:"기타", cls:"cat-etc" };
 }
@@ -277,10 +301,10 @@ function categorizeAccount(tx) {
 function categorizeCard(tx) {
     const s = tx.store.toLowerCase();
     // 외식/식당
-    if (/을밀대|열날개|램하우스|마포갈매기|쭈꾸미|칼국수|쇼몽|시칠리|기요한|왕소금|후엘고|앤티도트|길바닥|김가네/.test(s))
+    if (/을밀대|열날개|램하우스|마포갈매기|쭈꾸미|칼국수|쇼몽|시칠리|기요한|왕소금|후엘고|앤티도트|길바닥|김가네|하늘전따지|옥소반|포36|최강어묵|황금콩밭/.test(s))
         return { name:"외식", cls:"cat-food", group:"food" };
     // 카페/베이커리
-    if (/파네트|빈브라더스|텐퍼센트|어닝바|영앤도터스|파티세리|오늘|엔지니어링 클럽/.test(s))
+    if (/파네트|빈브라더스|텐퍼센트|어닝바|영앤도터스|파티세리|오늘|엔지니어링 클럽|캐피|프로토콜/.test(s))
         return { name:"카페", cls:"cat-cafe", group:"food" };
     // 편의점
     if (/씨유|cu|gs25/.test(s))
@@ -288,16 +312,18 @@ function categorizeCard(tx) {
     // 온라인쇼핑
     if (/컬리/.test(s))
         return { name:"식비", cls:"cat-food", group:"food" };
-    if (/쿠팡|플릭팜/.test(s))
+    if (/쿠팡|플릭팜|네이버페이/.test(s))
         return { name:"온라인쇼핑", cls:"cat-shopping", group:"shopping" };
     // 생활용품
-    if (/무인양품|다이소/.test(s))
+    if (/무인양품|다이소|올리브영/.test(s))
         return { name:"생활용품", cls:"cat-life", group:"shopping" };
     if (/쿠쿠/.test(s))
         return { name:"고정지출", cls:"cat-fixed", group:"life" };
-    // 의류
+    // 의류/백화점
     if (/에프알엘|유니클로/.test(s))
         return { name:"의류", cls:"cat-fashion", group:"shopping" };
+    if (/백화점/.test(s))
+        return { name:"쇼핑", cls:"cat-shopping", group:"shopping" };
     // 공과금
     if (/도시가스/.test(s))
         return { name:"고정지출", cls:"cat-fixed", group:"life" };
@@ -307,6 +333,12 @@ function categorizeCard(tx) {
     // 배달 (식비)
     if (/쿠팡이츠/.test(s))
         return { name:"식비", cls:"cat-food", group:"food" };
+    // 의료
+    if (/약국/.test(s))
+        return { name:"의료", cls:"cat-life", group:"life" };
+    // 여가
+    if (/노래연습장|노래방/.test(s))
+        return { name:"여가", cls:"cat-etc", group:"life" };
     return { name:"기타", cls:"cat-etc", group:"life" };
 }
 
@@ -355,7 +387,7 @@ function renderAcctSummary() {
         <div class="summary-card">
             <div class="label">현재 잔액</div>
             <div class="value balance">${fmt(lastBalance)}</div>
-            <div class="sub">3월 30일 기준</div>
+            <div class="sub">3월 31일 기준</div>
         </div>
     `;
 }
@@ -558,12 +590,12 @@ function renderCardTable() {
 let cardMonthChart, cardCatChart;
 
 function renderCardMonthlyChart() {
-    const months = ["2월", "3월"];
-    const amountByMonth = [0, 0];
+    const months = ["2월", "3월", "4월"];
+    const amountByMonth = [0, 0, 0];
 
     cardTx.forEach(tx => {
         const m = parseInt(tx.date.split("-")[1]) - 2;
-        if (m >= 0 && m < 2) amountByMonth[m] += tx.amount;
+        if (m >= 0 && m < 3) amountByMonth[m] += tx.amount;
     });
 
     const ctx = document.getElementById("cardMonthlyChart").getContext("2d");
@@ -573,7 +605,7 @@ function renderCardMonthlyChart() {
         type: "bar",
         data: {
             labels: months,
-            datasets: [{ label: "카드 결제", data: amountByMonth, backgroundColor: ["rgba(90,143,204,0.65)","rgba(232,152,94,0.65)"], borderRadius: 6 }]
+            datasets: [{ label: "카드 결제", data: amountByMonth, backgroundColor: ["rgba(90,143,204,0.65)","rgba(232,152,94,0.65)","rgba(46,139,87,0.65)"], borderRadius: 6 }]
         },
         options: {
             responsive: true,
