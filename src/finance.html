@@ -53,6 +53,8 @@
             <button class="month-tab active" data-month="all">전체</button>
             <button class="month-tab" data-month="2">2월</button>
             <button class="month-tab" data-month="3">3월</button>
+            <button class="month-tab" data-month="4">4월</button>
+            <button class="month-tab" data-month="5">5월</button>
         </div>
 
         <div class="charts-grid">
@@ -107,6 +109,7 @@
             <button class="month-tab" data-month="2">2월</button>
             <button class="month-tab" data-month="3">3월</button>
             <button class="month-tab" data-month="4">4월</button>
+            <button class="month-tab" data-month="5">5월</button>
         </div>
 
         <div class="charts-grid">
@@ -154,7 +157,7 @@
 
 <script>
 /* ================================================================
-   계좌 이체 데이터 (신한은행_거래내역조회_20260403 기준)
+   계좌 이체 데이터 (신한은행_거래내역조회_20260505 기준)
    ================================================================ */
 const accountTx = [
     { date:"2026-02-05", time:"14:25:34", desc:"이상혁 (잔액정리)", withdrawal:1133541, deposit:0, balance:0, memo:"모바일" },
@@ -187,10 +190,23 @@ const accountTx = [
     { date:"2026-03-27", time:"17:58:34", desc:"상혁 3월 월급 추가분", withdrawal:0, deposit:3980000, balance:18757805, memo:"타행모바일뱅킹" },
     { date:"2026-03-30", time:"06:02:23", desc:"대출이자", withdrawal:445248, deposit:0, balance:18312557, memo:"대출이자" },
     { date:"2026-03-31", time:"21:11:10", desc:"형수,할머니 선물", withdrawal:310000, deposit:0, balance:18002557, memo:"모바일" },
+    { date:"2026-04-13", time:"21:31:13", desc:"김소연 (이체)", withdrawal:140000, deposit:0, balance:17862557, memo:"모바일" },
+    { date:"2026-04-15", time:"13:49:37", desc:"파스타통", withdrawal:11000, deposit:0, balance:17851557, memo:"모바일" },
+    { date:"2026-04-17", time:"17:34:47", desc:"김소연 도수치료 보험환급", withdrawal:0, deposit:91900, balance:17943457, memo:"모바일" },
+    { date:"2026-04-24", time:"15:22:22", desc:"상혁 4월 급여", withdrawal:0, deposit:5854770, balance:23798227, memo:"타행모바일뱅킹" },
+    { date:"2026-04-27", time:"08:23:24", desc:"자동이체 (적금)", withdrawal:300000, deposit:0, balance:23498227, memo:"자동이체" },
+    { date:"2026-04-27", time:"18:10:33", desc:"신한카드 결제", withdrawal:1815035, deposit:0, balance:21683192, memo:"카드결제" },
+    { date:"2026-04-27", time:"18:43:59", desc:"우리카드 결제", withdrawal:223340, deposit:0, balance:21459852, memo:"FB자동" },
+    { date:"2026-04-28", time:"11:19:39", desc:"소연 4월 월급", withdrawal:0, deposit:2530000, balance:23989852, memo:"모바일" },
+    { date:"2026-04-29", time:"06:02:30", desc:"대출이자", withdrawal:459287, deposit:0, balance:23530565, memo:"대출이자" },
+    { date:"2026-04-30", time:"07:08:49", desc:"안나래 (이체)", withdrawal:30000, deposit:0, balance:23500565, memo:"모바일" },
+    { date:"2026-05-04", time:"21:05:08", desc:"김옥란 (이체)", withdrawal:2000, deposit:0, balance:23498565, memo:"모바일" },
+    { date:"2026-05-05", time:"17:46:25", desc:"여행경비", withdrawal:947309, deposit:0, balance:22551256, memo:"모바일" },
+    { date:"2026-05-05", time:"17:47:12", desc:"여행숙소", withdrawal:249945, deposit:0, balance:22301311, memo:"모바일" },
 ];
 
 /* ================================================================
-   카드 결제 데이터 (Shinhancard_20260403 + 신한0401-0412 기준)
+   카드 결제 데이터 (Shinhancard_20260505 기준)
    ================================================================ */
 const cardTx = [
     { date:"2026-02-09", time:"22:07", store:"컬리페이", amount:61640, cardType:"신용", installment:"일시불" },
@@ -266,6 +282,67 @@ const cardTx = [
     { date:"2026-04-11", time:"20:10", store:"프로토콜 (protokoll)", amount:31300, cardType:"신용", installment:"일시불" },
     { date:"2026-04-12", time:"12:03", store:"황금콩밭", amount:26000, cardType:"신용", installment:"일시불" },
     { date:"2026-04-12", time:"12:17", store:"파네트", amount:21000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-12", time:"19:52", store:"3.5cm 왕소금구이", amount:52000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-13", time:"18:29", store:"쿠팡이츠", amount:31000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-13", time:"19:28", store:"씨유(CU) 공덕래미안4차점", amount:3400, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-13", time:"22:06", store:"네이버페이", amount:25500, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-14", time:"12:08", store:"텐퍼센트 (마곡역점)", amount:10200, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-14", time:"23:09", store:"컬리페이", amount:47840, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-15", time:"11:46", store:"어닝바", amount:26000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-15", time:"11:49", store:"어닝바", amount:2000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-15", time:"19:13", store:"쿠팡", amount:45070, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-16", time:"20:22", store:"씨유(CU) 공덕래미안4차점", amount:1100, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-16", time:"20:22", store:"씨유(CU) 공덕래미안4차점", amount:17300, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-16", time:"20:40", store:"에프알엘코리아 (유니클로)", amount:139600, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-17", time:"13:00", store:"제이엘정형외과의원", amount:101900, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-17", time:"13:01", store:"누아주베이커리 원그로브점", amount:4560, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-17", time:"19:53", store:"어거스트치킨 공덕", amount:34000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-18", time:"17:52", store:"아현식자재마트", amount:73810, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-18", time:"22:24", store:"쿠팡", amount:36660, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-19", time:"13:24", store:"쿠팡", amount:29800, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-19", time:"15:15", store:"파네트", amount:13900, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-20", time:"13:36", store:"서울도시가스", amount:98630, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-20", time:"18:52", store:"쿠팡이츠", amount:29200, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-21", time:"12:49", store:"쿠팡이츠", amount:18300, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-24", time:"12:08", store:"더블엄", amount:49950, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-24", time:"12:19", store:"버터풀리", amount:8000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-24", time:"14:48", store:"무인양품 원그로브점", amount:30600, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-24", time:"15:31", store:"아성다이소", amount:1000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-24", time:"20:18", store:"스시복", amount:106000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-25", time:"11:20", store:"오공김밥", amount:11000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-26", time:"16:54", store:"이너커피 (Iner Coffee)", amount:10300, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-26", time:"17:58", store:"파네트", amount:5600, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-26", time:"19:57", store:"마포 명인등심", amount:106000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-27", time:"08:26", store:"쿠쿠홈시스", amount:27800, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-28", time:"14:57", store:"안녕이비인후과", amount:10900, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-28", time:"14:59", store:"숲속약국 원그로브점", amount:4400, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-28", time:"16:02", store:"쿠팡", amount:29190, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-28", time:"19:44", store:"현대백화점 더현대 서울", amount:12500, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-28", time:"19:44", store:"현대백화점 더현대 서울", amount:12000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-28", time:"21:50", store:"룰루레몬", amount:436500, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-29", time:"18:38", store:"무인양품 원그로브점", amount:44910, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-29", time:"22:33", store:"씨유(CU) 공덕래미안4차점", amount:7600, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-30", time:"09:18", store:"숲속약국 원그로브점", amount:1000, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-30", time:"18:47", store:"안녕이비인후과", amount:89400, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-30", time:"18:48", store:"숲속약국 원그로브점", amount:6200, cardType:"신용", installment:"일시불" },
+    { date:"2026-04-30", time:"19:16", store:"무인양품 원그로브점", amount:53280, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-01", time:"15:28", store:"무국식탁편백집", amount:28000, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-01", time:"17:10", store:"립하버코리아유한회사", amount:16000, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-01", time:"18:08", store:"립하버코리아유한회사", amount:6000, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-01", time:"18:34", store:"파네트", amount:20000, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-01", time:"19:36", store:"아시아나항공직판KRW온라인", amount:134200, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-01", time:"21:20", store:"빌라토 (VILLATO)", amount:139000, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-01", time:"21:49", store:"씨유(CU) 공덕래미안4차점", amount:7600, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-02", time:"00:15", store:"쿠팡", amount:39900, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-02", time:"10:16", store:"숲속랜드", amount:34000, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-02", time:"11:01", store:"숲속랜드 스넥", amount:10000, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-02", time:"13:08", store:"가마골", amount:45000, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-02", time:"21:57", store:"네이버페이", amount:5600, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-04", time:"13:03", store:"쿠팡이츠", amount:15800, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-04", time:"20:58", store:"월매식당", amount:55000, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-04", time:"21:16", store:"올리브영 공덕파크팰리", amount:3700, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-05", time:"19:45", store:"아모레퍼시픽", amount:34750, cardType:"신용", installment:"일시불" },
+    { date:"2026-05-05", time:"21:48", store:"쿠팡", amount:16540, cardType:"신용", installment:"일시불" },
 ];
 
 /* ================================================================
@@ -283,17 +360,17 @@ function categorizeAccount(tx) {
         if (d.includes("월급") || d.includes("급여")) return { name:"급여", cls:"cat-salary" };
         if (d.includes("이자")) return { name:"이자", cls:"cat-interest" };
         if (d.includes("캐쉬백")) return { name:"기타수입", cls:"cat-etc" };
-        if (d.includes("환입")) return { name:"환입", cls:"cat-interest" };
+        if (d.includes("환입") || d.includes("환급")) return { name:"환입", cls:"cat-interest" };
         return { name:"입금", cls:"cat-salary" };
     }
     if (d.includes("관리비")) return { name:"주거", cls:"cat-housing" };
-    if (d.includes("항공")) return { name:"여행", cls:"cat-travel" };
+    if (d.includes("항공") || d.includes("여행")) return { name:"여행", cls:"cat-travel" };
     if (d.includes("카드")) return { name:"카드결제", cls:"cat-card" };
     if (d.includes("대출") || d.includes("이자")) return { name:"금융", cls:"cat-finance" };
     if (d.includes("적금") || d.includes("자동이체")) return { name:"저축", cls:"cat-savings" };
     if (d.includes("코스트코") || d.includes("화분") || d.includes("풋샵")) return { name:"쇼핑/생활", cls:"cat-shopping" };
     if (d.includes("선물")) return { name:"경조/선물", cls:"cat-etc" };
-    if (d.includes("정산") || d.includes("개인") || d.includes("잔액정리")) return { name:"개인지출", cls:"cat-etc" };
+    if (d.includes("정산") || d.includes("개인") || d.includes("잔액정리") || d.includes("이체")) return { name:"개인지출", cls:"cat-etc" };
     return { name:"기타", cls:"cat-etc" };
 }
 
@@ -301,26 +378,29 @@ function categorizeAccount(tx) {
 function categorizeCard(tx) {
     const s = tx.store.toLowerCase();
     // 외식/식당
-    if (/을밀대|열날개|램하우스|마포갈매기|쭈꾸미|칼국수|쇼몽|시칠리|기요한|왕소금|후엘고|앤티도트|길바닥|김가네|하늘전따지|옥소반|포36|최강어묵|황금콩밭/.test(s))
+    if (/을밀대|열날개|램하우스|마포갈매기|쭈꾸미|칼국수|쇼몽|시칠리|기요한|왕소금|후엘고|앤티도트|길바닥|김가네|하늘전따지|옥소반|포36|최강어묵|황금콩밭|어거스트치킨|스시복|오공김밥|명인등심|무국식탁|월매식당|가마골|빌라토|숲속랜드 스넥/.test(s))
         return { name:"외식", cls:"cat-food", group:"food" };
     // 카페/베이커리
-    if (/파네트|빈브라더스|텐퍼센트|어닝바|영앤도터스|파티세리|오늘|엔지니어링 클럽|캐피|프로토콜/.test(s))
+    if (/파네트|빈브라더스|텐퍼센트|어닝바|영앤도터스|파티세리|오늘|엔지니어링 클럽|캐피|프로토콜|누아주베이커리|버터풀리|이너커피/.test(s))
         return { name:"카페", cls:"cat-cafe", group:"food" };
     // 편의점
     if (/씨유|cu|gs25/.test(s))
         return { name:"편의점", cls:"cat-conv", group:"food" };
-    // 온라인쇼핑
+    // 식비 (배달/마켓)
     if (/컬리/.test(s))
         return { name:"식비", cls:"cat-food", group:"food" };
+    if (/쿠팡이츠/.test(s))
+        return { name:"식비", cls:"cat-food", group:"food" };
+    // 온라인쇼핑
     if (/쿠팡|플릭팜|네이버페이/.test(s))
         return { name:"온라인쇼핑", cls:"cat-shopping", group:"shopping" };
     // 생활용품
-    if (/무인양품|다이소|올리브영/.test(s))
+    if (/무인양품|다이소|올리브영|아현식자재|립하버|아모레퍼시픽/.test(s))
         return { name:"생활용품", cls:"cat-life", group:"shopping" };
     if (/쿠쿠/.test(s))
         return { name:"고정지출", cls:"cat-fixed", group:"life" };
     // 의류/백화점
-    if (/에프알엘|유니클로/.test(s))
+    if (/에프알엘|유니클로|룰루레몬/.test(s))
         return { name:"의류", cls:"cat-fashion", group:"shopping" };
     if (/백화점/.test(s))
         return { name:"쇼핑", cls:"cat-shopping", group:"shopping" };
@@ -330,14 +410,14 @@ function categorizeCard(tx) {
     // 교통/주유
     if (/주유|택시/.test(s))
         return { name:"교통/주유", cls:"cat-transport", group:"life" };
-    // 배달 (식비)
-    if (/쿠팡이츠/.test(s))
-        return { name:"식비", cls:"cat-food", group:"food" };
     // 의료
-    if (/약국/.test(s))
+    if (/약국|이비인후과|정형외과/.test(s))
         return { name:"의료", cls:"cat-life", group:"life" };
+    // 여행
+    if (/아시아나항공/.test(s))
+        return { name:"여행", cls:"cat-travel", group:"life" };
     // 여가
-    if (/노래연습장|노래방/.test(s))
+    if (/노래연습장|노래방|숲속랜드/.test(s))
         return { name:"여가", cls:"cat-etc", group:"life" };
     return { name:"기타", cls:"cat-etc", group:"life" };
 }
@@ -387,7 +467,7 @@ function renderAcctSummary() {
         <div class="summary-card">
             <div class="label">현재 잔액</div>
             <div class="value balance">${fmt(lastBalance)}</div>
-            <div class="sub">3월 31일 기준</div>
+            <div class="sub">5월 5일 기준</div>
         </div>
     `;
 }
@@ -429,13 +509,13 @@ function renderAcctTable() {
 let acctMonthlyChart, acctCategoryChart;
 
 function renderAcctMonthlyChart() {
-    const months = ["2월", "3월"];
-    const incomeByMonth = [0, 0];
-    const expenseByMonth = [0, 0];
+    const months = ["2월", "3월", "4월", "5월"];
+    const incomeByMonth = [0, 0, 0, 0];
+    const expenseByMonth = [0, 0, 0, 0];
 
     accountTx.forEach(tx => {
         const m = parseInt(tx.date.split("-")[1]) - 2;
-        if (m >= 0 && m < 2) {
+        if (m >= 0 && m < 4) {
             incomeByMonth[m] += tx.deposit;
             expenseByMonth[m] += tx.withdrawal;
         }
@@ -590,12 +670,12 @@ function renderCardTable() {
 let cardMonthChart, cardCatChart;
 
 function renderCardMonthlyChart() {
-    const months = ["2월", "3월", "4월"];
-    const amountByMonth = [0, 0, 0];
+    const months = ["2월", "3월", "4월", "5월"];
+    const amountByMonth = [0, 0, 0, 0];
 
     cardTx.forEach(tx => {
         const m = parseInt(tx.date.split("-")[1]) - 2;
-        if (m >= 0 && m < 3) amountByMonth[m] += tx.amount;
+        if (m >= 0 && m < 4) amountByMonth[m] += tx.amount;
     });
 
     const ctx = document.getElementById("cardMonthlyChart").getContext("2d");
@@ -605,7 +685,7 @@ function renderCardMonthlyChart() {
         type: "bar",
         data: {
             labels: months,
-            datasets: [{ label: "카드 결제", data: amountByMonth, backgroundColor: ["rgba(90,143,204,0.65)","rgba(232,152,94,0.65)","rgba(46,139,87,0.65)"], borderRadius: 6 }]
+            datasets: [{ label: "카드 결제", data: amountByMonth, backgroundColor: ["rgba(90,143,204,0.65)","rgba(232,152,94,0.65)","rgba(46,139,87,0.65)","rgba(142,107,191,0.65)"], borderRadius: 6 }]
         },
         options: {
             responsive: true,
