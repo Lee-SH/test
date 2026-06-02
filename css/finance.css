@@ -64,38 +64,108 @@
 .value.expense{ color: #d35450; }
 .value.balance{ color: var(--text); }
 
-/* ── 월별 탭 ── */
-.month-tabs{
-    display: flex;
-    gap: 4px;
-    background: rgba(0,0,0,0.03);
+/* ── 월별 선택 드롭다운 (커스텀) ── */
+.month-dd{
+    position: relative;
+    align-self: flex-start;
+    display: inline-block;
+    user-select: none;
+}
+
+.month-dd-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 158px;
+    padding: 11px 16px;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 3px;
-    align-self: flex-start;
-}
-
-.month-tab{
-    padding: 7px 20px;
-    border-radius: 8px;
-    border: none;
-    background: transparent;
-    color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: color 150ms ease, background 150ms ease;
-}
-
-.month-tab:hover{
-    color: var(--text);
-    background: rgba(0,0,0,0.03);
-}
-
-.month-tab.active{
-    color: var(--text);
     background: var(--bg-card);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
     box-shadow: var(--shadow-sm);
+    transition: border-color 150ms ease, box-shadow 150ms ease, transform 100ms ease;
+}
+
+.month-dd-btn:hover{ border-color: var(--accent); }
+.month-dd-btn:active{ transform: scale(0.98); }
+
+.month-dd.open .month-dd-btn{
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.month-dd-cal{ font-size: 14px; line-height: 1; opacity: 0.85; }
+
+.month-dd-label{
+    flex: 1;
+    text-align: left;
+    color: var(--accent);
+}
+
+.month-dd-arrow{
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 180ms ease, border-color 180ms ease;
+}
+.month-dd-btn:hover .month-dd-arrow{ border-color: var(--accent); }
+.month-dd.open .month-dd-arrow{
+    transform: translateY(2px) rotate(-135deg);
+    border-color: var(--accent);
+}
+
+/* 펼침 메뉴 */
+.month-dd-menu{
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px) scale(0.98);
+    transform-origin: top center;
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+}
+
+.month-dd.open .month-dd-menu{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.month-dd-opt{
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 120ms ease, color 120ms ease;
+}
+
+.month-dd-opt:hover{
+    background: var(--accent-light);
+    color: var(--text);
+}
+
+.month-dd-opt.selected{
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
 }
 
 /* ── 섹션 카드 ── */
@@ -448,8 +518,8 @@
     .table-scroll{ display: none; }
     .tx-card-list{ display: flex; }
 
-    .month-tabs{ align-self: stretch; }
-    .month-tab{ flex: 1; text-align: center; }
+    .month-dd{ align-self: stretch; display: block; }
+    .month-dd-btn{ width: 100%; }
 
     .summary-card .label{ font-size: 11px; }
     .summary-card .value{ font-size: 16px; }
